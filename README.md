@@ -1,3 +1,6 @@
+
+Share the charger is an app that allows users to book available electric domestic chargers and add new domestic chargers on a map
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
