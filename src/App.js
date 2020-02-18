@@ -1,12 +1,14 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import Map from "./components/Map";
+// import Navbar from "./components/Navbar";
+import AddButton from "./components/AddButton"
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-
-    </div>
-  );
+  <div>
+    {/* <Navbar /> */}
+    <Map />
+    <AddButton />
+  </div>
+  )
 }
-
-export default App;
