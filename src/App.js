@@ -7,7 +7,7 @@ export default function App() {
   return (
   <div>
     <Navbar />
-    <Map />
+      <Map />
     <AddButton />
   </div>
   )

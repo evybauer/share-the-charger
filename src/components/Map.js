@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import * as parkData from "../data/skateboard-parks.json";
-import RoomIcon from "@material-ui/icons/Room";
+import RoomIcon from '@material-ui/icons/Room';
 // import Button from "@material-ui/core/Button";
-// import Card from "./components/Card";
 import FormDialog from "./FormDialog";
 import AddButton from "./AddButton";
+// import Success from "./Success";
 
 export default function Map() {
   const [viewport, setViewport] = useState({
