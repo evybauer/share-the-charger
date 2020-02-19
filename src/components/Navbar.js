@@ -145,7 +145,7 @@ export default function PersistentDrawerLeft(props) {
         <Divider />
         <List>
           {['Add a Charger', 'My Chargers'].map((text, index) => (
-            <ListItem button key={text}>
+            <ListItem button key={text} open={open} onClick={props.addChargerClick}>
               <ListItemIcon>{index % 2 === 0 ? <AddLocationRoundedIcon /> : <EvStationRoundedIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
