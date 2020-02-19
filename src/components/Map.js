@@ -48,13 +48,17 @@ export default function Map() {
           latitude={park.geometry.coordinates[1]}
           longitude={park.geometry.coordinates[0]}
         > 
-          <button className="marker-btn" onClick={(e) => {
+          {/* <button className="marker-btn" onClick={(e) => {
             e.preventDefault();
             setSelectedPark(park);
-          }}>
-            <RoomIcon />
+          }}> */}
+            <RoomIcon onClick={(e) => {
+              e.preventDefault();
+              setSelectedPark(park);
+            }}>
+            </RoomIcon>
             {/* <img src="/skateboarding.svg" alt="Skate Park Icon" /> */}
-          </button>
+          {/* </button> */}
         </Marker>
       ))}
 
