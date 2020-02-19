@@ -91,7 +91,7 @@ export default function PersistentDrawerLeft(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log(props)
+  console.log(`1st props name : ${props}`)
 
   
   return (

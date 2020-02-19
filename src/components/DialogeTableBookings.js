@@ -35,9 +35,7 @@ export default function FullScreenDialog(props) {
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        My Bookings
-      </Button> */}
+      <div>Hello World</div>
       <Dialog fullScreen open={props.open} onClose={props.handleClose} TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>

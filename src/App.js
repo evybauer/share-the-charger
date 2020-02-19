@@ -28,9 +28,6 @@ export default function App() {
     <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} />
   
     <Map />
-    <Navbar />
-      <Map />
-    <AddButton />
   </div>
   )
 }
