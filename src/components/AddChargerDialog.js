@@ -194,10 +194,10 @@ export default function AddChargerDialog(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleClose} color="primary">
-            Cancel
+            Add
           </Button>
           <Button onClick={props.handleClose} color="primary">
-            Add
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
