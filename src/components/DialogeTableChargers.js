@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
-import TableBookings from './TableBookings'
+import TableChargers from './TableChargers';
 
 const useStyles = makeStyles(theme => ({
   appBar: {
@@ -38,7 +38,7 @@ export default function FullScreenDialog(props) {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              My Bookings
+              My Chargers
             </Typography>
             <Button autoFocus color="inherit" onClick={props.handleClose}>
               close
@@ -46,7 +46,7 @@ export default function FullScreenDialog(props) {
           </Toolbar>
         </AppBar>
 
-      <TableBookings />  
+      <TableChargers />
 
       </Dialog>
     </div>
