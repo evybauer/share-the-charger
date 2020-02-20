@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
-import Geocoder from 'react-mapbox-gl-geocoder'
+// import Geocoder from 'react-mapbox-gl-geocoder'
 import * as parkData from "../data/skateboard-parks.json";
 import RoomIcon from '@material-ui/icons/Room';
 // import Button from "@material-ui/core/Button";
