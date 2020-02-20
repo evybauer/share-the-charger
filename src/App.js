@@ -1,9 +1,9 @@
 import React from "react";
 import Map from "./components/Map";
 import Navbar from "./components/Navbar";
-import AddButton from "./components/AddButton";
 import DialogeTableBookings from "./components/DialogeTableBookings";
 import AddChargerDialog from "./components/AddChargerDialog";
+import DialogeTableChargers from "./components/DialogeTableChargers";
 
 export default function App() {
 
@@ -23,16 +23,23 @@ export default function App() {
     setOpenAddCharger(!openAddCharger);
   };
 
+  const [openMyChargers, setOpenMyChargers] = React.useState(false);
+  const toggleMyChargers = () => {
+    setOpenMyChargers(!openMyChargers);
+  };
+
   const handleClose = () => {
     setOpenDialoge(false);
     setOpenAddCharger(false);
+    setOpenMyChargers(false);
   };
 
   return (
   <div>
-    <Navbar open={open} myBookingsClick={toggleDialoge} addChargerClick={toggleAddCharger}/>
+    <Navbar open={open} myBookingsClick={toggleDialoge} addChargerClick={toggleAddCharger} myChargersClick={toggleMyChargers}/>
     <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+    <DialogeTableChargers open={openMyChargers} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     <Map />
   </div>
   )
