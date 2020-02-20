@@ -40,32 +40,34 @@ const tableIcons = {
 export default function MaterialTableDemo() {
   const [state, setState] = React.useState({
     columns: [
-      {
-        title: 'Charger Address',
-        field: 'street',
-      },
-      { title: 'Date', field: 'date' },
-      { title: 'Time', field: 'time' },
-      { title: 'Total Price', field: 'totalPrice'},
+      { title: 'First Name', field: 'firstName' },
+      { title: 'Last Name', field: 'lastName' },
+      { title: 'Date of Birth', field: 'dateOfBirth', type: 'numeric' },
+      { title: 'Email', field: 'email', type: 'email' },
+      { title: 'Password', field: 'password', type: 'password' },
+      { title: 'Phone Number', field: 'phoneNumber', type: 'numeric' },
+      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' },
+      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'numeric' },
+      { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
     ],
     data: [
-      { 
-        street: '401 West Georgia', 
-        date: '2020-02-20', 
-        time: '11.00',
-        totalPrice: 15},
       {
-        street: '311 Howe', 
-        date: '2020-10-03',
-        time: '09.00',
-        totalPrice: 10,
+        firstName: 'Zerya', 
+        lastName: 'Betul', 
+        dateOfBirth: 1987-11-13, 
+        email: 'baran@gmail.com', 
+        password: '15Gkl8',
+        phoneNumber: 6042232456,
+        creditCardNumber: 4916151497272522,
+        creditCardExpirationDate: '2023-03-01',
+        creditCardCvv: 411,
       },
     ],
   });
 
   return (
     <MaterialTable
-      title="Bookings history"
+      title="Edit your account information here"
       columns={state.columns}
       data={state.data}
       icons={tableIcons}
@@ -81,17 +83,6 @@ export default function MaterialTableDemo() {
                   return { ...prevState, data };
                 });
               }
-            }, 600);
-          }),
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState.data];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
             }, 600);
           }),
       }}

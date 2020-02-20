@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import DialogeTableBookings from "./components/DialogeTableBookings";
 import AddChargerDialog from "./components/AddChargerDialog";
 import DialogeTableChargers from "./components/DialogeTableChargers";
+import DialogeMyAccount from "./components/DialogeMyAccount";
 
 export default function App() {
 
@@ -28,18 +29,25 @@ export default function App() {
     setOpenMyChargers(!openMyChargers);
   };
 
+  const [openMyAccount, setOpenMyAccount] = React.useState(false);
+  const toggleMyAccount = () => {
+    setOpenMyAccount(!openMyAccount);
+  };
+
   const handleClose = () => {
     setOpenDialoge(false);
     setOpenAddCharger(false);
     setOpenMyChargers(false);
+    setOpenMyAccount(false);
   };
 
   return (
   <div>
-    <Navbar open={open} myBookingsClick={toggleDialoge} addChargerClick={toggleAddCharger} myChargersClick={toggleMyChargers}/>
+    <Navbar open={open} myBookingsClick={toggleDialoge} addChargerClick={toggleAddCharger} myChargersClick={toggleMyChargers} myAccountClick={toggleMyAccount}/>
     <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     <DialogeTableChargers open={openMyChargers} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+    <DialogeMyAccount open={openMyAccount} handleClickOpen={handleClickOpen} handleClose={handleClose} />
     <Map />
   </div>
   )

@@ -82,14 +82,6 @@ export default function AddChargerDialog(props) {
           <TextField
             autoFocus
             margin="dense"
-            id="city"
-            label="City"
-            type="text"
-            fullWidth
-          />
-          <TextField
-            autoFocus
-            margin="dense"
             id="province"
             label="Province"
             type="text"
