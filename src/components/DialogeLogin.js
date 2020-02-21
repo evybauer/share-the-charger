@@ -6,9 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 export default function DialogeLogin(props) {
-
   return (
     <div>
       <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
@@ -45,4 +43,3 @@ export default function DialogeLogin(props) {
     </div>
   );
 }
-
