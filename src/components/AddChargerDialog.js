@@ -8,37 +8,15 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 export default function AddChargerDialog(props) {
-  // const [open, setOpen] = React.useState(false);
-
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   return (
     <div>
-      {/* This is the first clickable button.  */}
-      {/* It should be replaced with Add Charger link from sidebar. */}
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
       <Dialog open={props.open} onClose={props.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add Your Charger</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Just type in your address to add your domestic electric vehicle charger to our open source database.
           </DialogContentText>
-          {/* <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
-            fullWidth
-          /> */}
           <TextField
             autoFocus
             margin="dense"
@@ -48,7 +26,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="cost-per-minute"
             label="Cost per minute"
@@ -56,7 +33,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="number-of-chargers"
             label="Number of chargers"
@@ -64,7 +40,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="street"
             label="Street"
@@ -72,7 +47,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="city"
             label="City"
@@ -80,7 +54,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="province"
             label="Province"
@@ -88,7 +61,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="postal-code"
             label="Postal Code"
@@ -96,7 +68,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="country-id"
             label="Country"
@@ -104,7 +75,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="country-id"
             label="Latitude"
@@ -112,7 +82,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="country-id"
             label="Longitude"
@@ -120,7 +89,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="comments"
             label="General Comments"
@@ -128,7 +96,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="type-of-charger"
             label="Type of Charger"
@@ -136,7 +103,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="active"
             label="Active"
@@ -144,7 +110,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="date-start"
             label="Date Available Start"
@@ -152,7 +117,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="date-end"
             label="Date Available End"
@@ -160,7 +124,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="hour-start"
             label="HourStart"
@@ -168,7 +131,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="hour-end"
             label="HourEnd"
@@ -176,7 +138,6 @@ export default function AddChargerDialog(props) {
             fullWidth
           />
           <TextField
-            autoFocus
             margin="dense"
             id="connection-type-id"
             label="Connection Type Id"
