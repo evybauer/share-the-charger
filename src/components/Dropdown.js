@@ -47,6 +47,8 @@ export default function Dropdown() {
           <MenuItem value={240}>240</MenuItem>
           <MenuItem value={360}>360</MenuItem>
           <MenuItem value={480}>480</MenuItem>
+          <MenuItem value={600}>600</MenuItem>
+          <MenuItem value={720}>720</MenuItem>
         </Select>
       </FormControl>
     </div>
