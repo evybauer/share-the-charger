@@ -20,6 +20,8 @@ import EventRoundedIcon from '@material-ui/icons/EventRounded';
 import EvStationRoundedIcon from '@material-ui/icons/EvStationRounded';
 import AddLocationRoundedIcon from '@material-ui/icons/AddLocationRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Button from '@material-ui/core/Button';
+
 
 const drawerWidth = 240;
 
@@ -33,6 +35,11 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
+  // button: {
+  //   marginRight: 'right',
+  //   textAlign: 'right',
+  //   marginLeft: theme.spacing(110),
+  // },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
@@ -40,6 +47,9 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  typography: {
+    flex: 1,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -113,9 +123,11 @@ export default function PersistentDrawerLeft(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
+          <Typography variant="h6" noWrap className={classes.typography}>
             Share the Charger
           </Typography>
+              <Button color="inherit" open={open} onClick={props.loginClick}>Login</Button> |
+              <Button color="inherit" open={open} onClick={props.signUpClick}>Sign Up</Button> 
         </Toolbar>
       </AppBar>
       <Drawer
