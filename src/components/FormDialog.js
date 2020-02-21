@@ -34,35 +34,17 @@ export default function FormDialog() {
             autoFocus
             margin="dense"
             id="date"
-            // label="Date"
             type="date"
             fullWidth
           />
-          {/* <TextField
-             autoFocus
-             margin="dense"
-             id="minutes"
-             label="Minutes"
-             type="minutes"
-             fullWidth
-          /> */}
           <Dropdown />
-           {/* <TextField
-             autoFocus
-             margin="dense"
-             id="totalPrice"
-             label="Total Price"
-             type="totalPrice"
-             fullWidth
-          /> */}
-
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Book
           </Button>
           <Button onClick={handleClose} color="primary">
-            Book
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>
