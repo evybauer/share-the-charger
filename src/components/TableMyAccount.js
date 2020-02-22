@@ -47,7 +47,7 @@ export default function MaterialTableDemo() {
       { title: 'Password', field: 'password', type: 'password' },
       { title: 'Phone Number', field: 'phoneNumber', type: 'numeric' },
       { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' },
-      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'numeric' },
+      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate'},
       { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
     ],
     data: [
