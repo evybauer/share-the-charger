@@ -10,32 +10,32 @@ import axios from 'axios';
 
 export default function AddChargerDialog(props) {
   const [form, setForm] = useState({
-    title: "Tesla Supercharger in Downtown Vancouver",
-    costPerMinute: 1,
-    numberOfChargers: 1,
-    street: "401 West Georgia",
-    city: "Vancouver",
-    stateOrProvince: "BC",
-    postCode: "V6C 1B2",
-    countryId: "1",
-    latitude: 1,
-    longitude: 1,
-    generalComments: "Available from 9 AM to 10 PM",
-    typeOfPlug: 1,
-    typeOfCharger: 1,
-    active: 1,
-    dateAvailableStart: "2020-02-20",
-    dateAvailableEnd: "2020-02-28",
-    hourStart: "01.00",
-    hourEnd: "01.00",
-    connectionTypeId: 2,
+    title: props.title,
+    costPerMinute: props.costPerMinute,
+    numberOfChargers: props.numberOfChargers,
+    street: props.street,
+    city: props.city,
+    stateOrProvince: props.stateOrProvince,
+    postCode: props.postCode,
+    countryId: props.countryId,
+    latitude: props.latitude,
+    longitude: props.longitude,
+    generalComments: props.generalComments,
+    typeOfPlug: props.typeOfPlug,
+    typeOfCharger: props.typeOfCharger,
+    active: props.active,
+    dateAvailableStart: props.dateAvailableStart,
+    dateAvailableEnd: props.dateAvailableEnd,
+    hourStart: props.hourStart,
+    hourEnd: props.hourEnd,
+    connectionTypeId: props.connectionTypeId,
     ownerId: "5e48e5635376001a00f75fa3"
   });
 
   const handleInputChange = e => {
     const { id, value } = e.target;
     setForm({ ...form, [id]: value });
-    console.log('this is my setFrom', setForm);
+    console.log('this is my form', form);
   };
 
   // const handleGetGeoCode = () => {
@@ -56,10 +56,13 @@ export default function AddChargerDialog(props) {
         }
       })
       .then(res => {
-        // console.log(res);
-        // console.log(res.data);
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-  };
+    };
 
   return (
     <div>
