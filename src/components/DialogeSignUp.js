@@ -129,7 +129,7 @@ export default function DialogeSignUp(props) {
             margin="dense"
             id="creditCardExpirationDate"
             label="Credit Card Expiration Date"
-            type="date"
+            type="month"
             fullWidth
             value={form.creditCardExpirationDate}
             onChange={handleInputChange}
