@@ -22,6 +22,8 @@ export default function Map() {
   });
 
   const [selectedPark, setSelectedPark] = useState(null);
+  const [selectedPoint, setSelectedPoint] = useState(null);
+
   const [points, setPoints] = useState([]);
   console.log('points:', points);
 
@@ -31,11 +33,29 @@ export default function Map() {
       if (geoData) {
         const {features} = geoData;
         const feature = features[0]
-        const geometries = [{id: feature.id, long: feature.geometry.coordinates[0], lat: feature.geometry.coordinates[1]}];
+        // const geometries = [{id: feature.id, long: feature.geometry.coordinates[0], lat: feature.geometry.coordinates[1]}];
+        const geometries = [
+                      {
+                        id: feature.id,
+                        placeName: feature.place_name,
+                        long: feature.geometry.coordinates[0],
+                        lat: feature.geometry.coordinates[1]
+                      }
+                    ];
         setPoints(geometries);
       }
       console.log(Object.keys(geoData));
-    });  
+    })
+    const listener = (e) => {
+      if (e.key === "Escape") {
+        setSelectedPoint(null);
+      }
+    };
+    window.addEventListener("keydown", listener);
+
+    return () => {
+      window.removeEventListener("keydown", listener);
+    }
   }, []);
   
 
@@ -62,7 +82,39 @@ export default function Map() {
         setViewport(viewport);
       }}
     >
-      {points.map(({id, long, lat}) => <Marker key={id} latitude={lat} longitude={long}><PinDropIcon></PinDropIcon></Marker>)}
+      
+      {/* GEOCODE DATA */}
+
+      {points.map(point => (
+          <Marker key={point.id} latitude={point.lat} longitude={point.long}>
+            <PinDropIcon
+              onClick={e => {
+                e.preventDefault();
+                setSelectedPoint(point);
+              }}
+            ></PinDropIcon>
+          </Marker>
+        ))}
+      
+    {selectedPoint ? (
+        <Popup 
+          latitude={selectedPoint.lat} 
+          longitude={selectedPoint.long}
+          onClose={() => {
+            setSelectedPoint(null)
+          }}
+        >  
+          <div>
+            <h2>{selectedPoint.placeName}</h2>
+            {/* <p>{selectedPoint.lat}</p>
+            <p>{selectedPoint.long}</p> */}
+            <FormDialog />
+          </div>
+        </Popup>
+      ) : null }
+          
+
+      {/* PARK DATA */}
 
       {parkData.features.map((park) => (
         <Marker 
