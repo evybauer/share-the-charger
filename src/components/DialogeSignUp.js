@@ -11,21 +11,21 @@ import axios from 'axios';
 export default function DialogeSignUp(props) {
 
   const [form, setForm] = useState({
-    email: "joanna@gmail.com",
-    password: "123J09nnA",
-    firstName: "Joanna",
-    lastName: "Newport",
-    dateOfBirth: "1985-01-29",
-    phoneNumber: 604123456,
-    creditCardNumber: 4929449345285943,
-    creditCardExpirationDate: "2023-03-04",
-    creditCardCvv: 411
+    email: props.email,
+    password: props.password,
+    firstName: props.firstName,
+    lastName: props.lastName,
+    dateOfBirth: props.dateOfBirth,
+    phoneNumber: props.phoneNumber,
+    creditCardNumber: props.creditCardNumber,
+    creditCardExpirationDate: props.creditCardExpirationDate,
+    creditCardCvv: props.creditCardCvv
   });
 
   const handleInputChange = e => {
     const { id, value } = e.target;
     setForm({...form, [id]: value});
-    console.log('THIS IS MY FORM', form);
+    console.log('This is my form', form);
 
   }
 
@@ -44,7 +44,10 @@ export default function DialogeSignUp(props) {
         console.log(res);
         console.log(res.data);
       })
-  }
+      .catch(function (error) {
+        console.log(error);
+      });
+    }
 
   return (
     <div>
