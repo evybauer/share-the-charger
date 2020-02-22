@@ -10,14 +10,14 @@ import axios from 'axios';
 export default function DialogeLogin(props) {
 
   const [form, setForm] = useState({
-    email: "joanna@gmail.com",
-    password: "123J09nnA"
+    email: props.email,
+    password: props.password
   });
 
   const handleInputChange = e => {
     const { id, value } = e.target;
     setForm({...form, [id]: value});
-    console.log('THIS IS MY FORM', form);
+    console.log('This is my form', form);
 
   }
 
