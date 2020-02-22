@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Dropdown() {
   const classes = useStyles();
-  const [minutes, setMinutes] = React.useState('');
+  const [hours, setHours] = React.useState('');
 
   // ==== Getting an error when I have one of the input fields
   // ==== When I comment this out it works
@@ -29,26 +29,29 @@ export default function Dropdown() {
   // }, []);
 
   const handleChange = event => {
-    setMinutes(event.target.value);
+    setHours(event.target.value);
   };
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
+        <InputLabel id="demo-simple-select-label">Hours</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={minutes}
+          value={hours}
           onChange={handleChange}
         >
-          <MenuItem value={60}>60</MenuItem>
-          <MenuItem value={120}>120</MenuItem>
-          <MenuItem value={240}>240</MenuItem>
-          <MenuItem value={360}>360</MenuItem>
-          <MenuItem value={480}>480</MenuItem>
-          <MenuItem value={600}>600</MenuItem>
-          <MenuItem value={720}>720</MenuItem>
+          <MenuItem value={1}>1</MenuItem>
+          <MenuItem value={2}>2</MenuItem>
+          <MenuItem value={3}>4</MenuItem>
+          <MenuItem value={5}>5</MenuItem>
+          <MenuItem value={7}>7</MenuItem>
+          <MenuItem value={8}>8</MenuItem>
+          <MenuItem value={9}>9</MenuItem>
+          <MenuItem value={10}>10</MenuItem>
+          <MenuItem value={11}>11</MenuItem>
+          <MenuItem value={12}>12</MenuItem>
         </Select>
       </FormControl>
     </div>
