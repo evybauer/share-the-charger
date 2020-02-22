@@ -42,7 +42,7 @@ export default function MaterialTableDemo() {
 
     columns: [
       { title: 'Title', field: 'title' },
-      { title: 'Cost per Minute', field: 'costPerMinute' },
+      { title: 'Cost per Minute', field: 'costPerKWh' },
       { title: 'Number of Chargers', field: 'numberOfChargers' },
       { title: 'Street', field: 'street' },
       { title: 'City', field: 'city' },
@@ -63,7 +63,7 @@ export default function MaterialTableDemo() {
     data: [
       { 
         title: 'Charger Ruby', 
-        costPerMinute: 20,
+        costPerKWh: 20,
         numberOfChargers: 1,
         street: '401 West Georgia',
         city: 'Vancouver',

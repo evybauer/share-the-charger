@@ -11,7 +11,7 @@ import axios from 'axios';
 export default function AddChargerDialog(props) {
   const [form, setForm] = useState({
     title: props.title,
-    costPerMinute: props.costPerMinute,
+    costPerKWh: props.costPerKWh,
     numberOfChargers: props.numberOfChargers,
     street: props.street,
     city: props.city,
@@ -21,8 +21,6 @@ export default function AddChargerDialog(props) {
     latitude: props.latitude,
     longitude: props.longitude,
     generalComments: props.generalComments,
-    typeOfPlug: props.typeOfPlug,
-    typeOfCharger: props.typeOfCharger,
     active: props.active,
     dateAvailableStart: props.dateAvailableStart,
     dateAvailableEnd: props.dateAvailableEnd,
@@ -88,11 +86,11 @@ export default function AddChargerDialog(props) {
           />
           <TextField
             margin="dense"
-            id="costPerMinute"
+            id="costPerKWh"
             label="Cost per minute"
             type="number"
             fullWidth
-            value={form.costPerMinute}
+            value={form.costPerKWh}
             onChange={handleInputChange}
           />
           <TextField
@@ -174,24 +172,6 @@ export default function AddChargerDialog(props) {
             type="text"
             fullWidth
             value={form.generalComments}
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            id="typeOfPlug"
-            label="Type of Charger"
-            type="text"
-            fullWidth
-            value={form.typeOfPlug}
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="dense"
-            id="typeOfCharger"
-            label="Type of Charger"
-            type="text"
-            fullWidth
-            value={form.typeOfCharger}
             onChange={handleInputChange}
           />
           <TextField

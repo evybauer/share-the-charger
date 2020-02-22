@@ -7,40 +7,19 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 // import Dropdown from './Dropdown';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+// import { makeStyles } from '@material-ui/core/styles';
+// import InputLabel from '@material-ui/core/InputLabel';
+// import MenuItem from '@material-ui/core/MenuItem';
 // import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import axios from 'axios';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
 // import { Alert, AlertTitle } from '@material-ui/lab';
+import axios from 'axios';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-
-  formControl: {
-    // margin: theme.spacing(1),
-    minWidth: 340,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
 export default function FormDialog(props) {
-  const [form, setForm] = useState({
-    chargerId: "5e48e5635376001a00f75fa3",
-    guestId: "5e48e5635376001a00f75fa3",
-    date: "2020-02-21",
-    minutes: 60,
-    totalPrice: 10
-  })
+
+  // DIALOG
 
   const [open, setOpen] = React.useState(false);
 
@@ -52,19 +31,19 @@ export default function FormDialog(props) {
     setOpen(false);
   };
 
-  const classes = useStyles();
-
-  const [minutes, setMinutes] = React.useState('');
-
-  const handleChange = event => {
-    setMinutes(event.target.value);
-  };
+  // INPUTS
+  const [form, setForm] = useState({
+    chargerId: "5e4c35cf8f57e712be84e0f8",
+    guestId: "5e48e5635376001a00f75fa3",
+    date: props.date,
+    hours: props.hours,
+    totalPrice: 10
+  })
 
   const handleInputChange = e => {
     const { id, value } = e.target;
     setForm({...form, [id]: value});
-    console.log('THIS IS MY FORM', form);
-
+    console.log('This is my form', form);
   }
 
   const handlePostData = () => {
@@ -82,7 +61,10 @@ export default function FormDialog(props) {
         console.log(res);
         console.log(res.data);
       })
-  }
+      .catch(function (error) {
+        console.log(error);
+      });
+    };
 
   return (
     <div>
@@ -97,34 +79,26 @@ export default function FormDialog(props) {
         <DialogTitle id="form-dialog-title">Book</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Add your details to book this charger.
+            Select the date and amount of hours you wish to book.
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
             id="date"
+            label=""
             type="date"
             fullWidth
             value={form.date}
+            onChange={handleInputChange}
           />
-          <FormControl className={classes.formControl} fullWidth>
-            <InputLabel id="demo-simple-select-label">Minutes</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="minutes"
-              value={form.minutes}
-              onChange={handleChange}
-              onChange={handleInputChange}
-            >
-              <MenuItem value={60}>60</MenuItem>
-              <MenuItem value={120}>120</MenuItem>
-              <MenuItem value={240}>240</MenuItem>
-              <MenuItem value={360}>360</MenuItem>
-              <MenuItem value={480}>480</MenuItem>
-              <MenuItem value={600}>600</MenuItem>
-              <MenuItem value={720}>720</MenuItem>
-          </Select>
-        </FormControl>
+          <TextField
+            margin="dense"
+            id="hours"
+            label=""
+            type="hours"
+            fullWidth
+            value={form.hours}
+            onChange={handleInputChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handlePostData} color="primary">

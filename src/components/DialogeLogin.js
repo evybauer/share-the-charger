@@ -36,7 +36,10 @@ export default function DialogeLogin(props) {
         console.log(res);
         console.log(res.data);
       })
-  }
+      .catch(function (error) {
+        console.log(error);
+      });
+    };
 
   return (
     <div>
