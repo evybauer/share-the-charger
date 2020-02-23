@@ -66,6 +66,44 @@ export default function FormDialog(props) {
       });
     };
 
+
+  // INPUT VALIDATION
+
+    const handleExitDate = e => {
+      const { id, value } = e.target;
+      const vDate = validateDate(value);
+
+    function validateDate(date) {
+      var vDate = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
+      return vDate.test(String(date));
+    }
+
+      if (id === 'date' && !vDate) {
+        console.log('Date is here')
+        setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Invalid date" })
+      } else {
+        setForm({ ...form, ["errorDate"]: false, ["helperTextDate"]: "" })
+      }
+    }
+
+    const handleExitHours = e => {
+      const { id, value } = e.target;
+      const vHours = validateHours(value);
+
+    function validateHours(hours) {
+      var vHours = /([1-9]|1[0-9]|2[0-4])/;
+      return vHours.test(String(hours));
+    }
+
+      if (id === 'hours' && !vHours) {
+        console.log('Hours is here')
+        setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "You can book chargers only within 24 hours" })
+      } else {
+        setForm({ ...form, ["errorHours"]: false, ["helperTextHours"]: "" })
+      }
+    }
+
+
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
@@ -84,20 +122,27 @@ export default function FormDialog(props) {
           <TextField
             margin="dense"
             id="date"
-            label=""
+            label="Date"
             type="date"
             fullWidth
+            error={form.errorDate}
+            helperText={form.helperTextDate}
             value={form.date}
             onChange={handleInputChange}
+            onBlur={handleExitDate}
           />
           <TextField
             margin="dense"
             id="hours"
-            label=""
+            label="Hours"
             type="hours"
             fullWidth
+            error={form.errorHours}
+            helperText={form.helperTextHours}
             value={form.hours}
             onChange={handleInputChange}
+            onBlur={handleExitHours}
+
           />
         </DialogContent>
         <DialogActions>

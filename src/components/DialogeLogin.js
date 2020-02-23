@@ -41,6 +41,46 @@ export default function DialogeLogin(props) {
       });
     };
 
+    // INPUT VALIDATION
+
+    const handleExitEmail = e => {
+      const { id, value } = e.target;
+      const em = validateEmail(value);
+
+      console.log(em)
+      console.log(id)
+
+      function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+      }
+  
+      if (id === 'email' && !em) {
+        console.log('it is here')
+        setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "Invalid e-mail address" })
+      } else {
+        setForm({ ...form, ["errorEmail"]: false, ["helperTextEmail"]: "" })
+      }
+    }
+
+    const handleExitPassword = e => {
+      const { id, value } = e.target;
+      const pw = validatePassword(value);
+
+      function validatePassword(password) {
+        var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        return re.test(String(password).toLowerCase());
+      }
+  
+      if (id === 'password' && !pw) {
+        console.log('it is here')
+        setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Incorrect Password" })
+      } else {
+        setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
+      }
+    }
+
+
   return (
     <div>
       <Dialog 
@@ -57,8 +97,11 @@ export default function DialogeLogin(props) {
             label="Email"
             type="text"
             fullWidth
+            error={form.errorEmail}
+            helperText={form.helperTextEmail}
             value={form.email}
             onChange={handleInputChange}
+            onBlur={handleExitEmail}
           />
           <TextField
             margin="dense"
@@ -66,8 +109,12 @@ export default function DialogeLogin(props) {
             label="Password"
             type="password"
             fullWidth
+            error={form.errorPassword}
+            helperText={form.helperTextPassword}
             value={form.password}
             onChange={handleInputChange}
+            onBlur={handleExitPassword}
+
           />
         </DialogContent>
         <DialogActions>
