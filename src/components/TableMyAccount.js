@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
@@ -16,6 +16,8 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import axios from 'axios';
+
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -38,8 +40,8 @@ const tableIcons = {
   };
 
 export default function MaterialTableDemo() {
-  const [state, setState] = React.useState({
-    columns: [
+
+  const columns = [
       { title: 'First Name', field: 'firstName' },
       { title: 'Last Name', field: 'lastName' },
       { title: 'Date of Birth', field: 'dateOfBirth', type: 'numeric' },
@@ -49,27 +51,58 @@ export default function MaterialTableDemo() {
       { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' },
       { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate'},
       { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
-    ],
-    data: [
+    ]
+
+    const [state, setState] = React.useState([
       {
-        firstName: 'Zerya', 
-        lastName: 'Betul', 
-        dateOfBirth: 1987-11-13, 
-        email: 'baran@gmail.com', 
-        password: '15Gkl8',
-        phoneNumber: 6042232456,
-        creditCardNumber: 4916151497272522,
-        creditCardExpirationDate: '2023-03-01',
-        creditCardCvv: 411,
+        // firstName: 'Zerya', 
+        // lastName: 'Betul', 
+        // dateOfBirth: 1987-11-13, 
+        // email: 'baran@gmail.com', 
+        // password: '15Gkl8',
+        // phoneNumber: 6042232456,
+        // creditCardNumber: 4916151497272522,
+        // creditCardExpirationDate: '2023-03-01',
+        // creditCardCvv: 411,
       },
     ],
-  });
+  );
+
+  useEffect(() => {
+    const url = "http://localhost:8080/user/5e52d643ff366d01abe73b1f";
+
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        let getUser = res.data.user
+        console.log(getUser) //array of dictionaries
+        delete getUser._id;
+        console.log(getUser)
+        delete getUser.__v;
+        console.log(getUser)
+        const userList = []
+        userList.push(getUser)
+        console.log(userList)
+
+        setState(userList)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [])
+
+
+
 
   return (
     <MaterialTable
-      title="Edit your account information here"
-      columns={state.columns}
-      data={state.data}
+      title="This is your account information"
+      columns={columns}
+      data={state}
       icons={tableIcons}
       editable={{
         onRowUpdate: (newData, oldData) =>
@@ -78,7 +111,7 @@ export default function MaterialTableDemo() {
               resolve();
               if (oldData) {
                 setState(prevState => {
-                  const data = [...prevState.data];
+                  const data = [...prevState];
                   data[data.indexOf(oldData)] = newData;
                   return { ...prevState, data };
                 });
