@@ -20,7 +20,7 @@ import axios from 'axios';
 export default function FormDialog(props) {
 
   console.log('BELOW IS THE PROPS:')
-  console.log(props.pin.placeName);
+  console.log(props.pin.title);
   // DIALOG
 
   const [open, setOpen] = React.useState(false);
@@ -35,17 +35,38 @@ export default function FormDialog(props) {
 
   // INPUTS
   const [form, setForm] = useState({
-    chargerId: "5e4c35cf8f57e712be84e0f8",
+    chargerId: props.pin.id,
     guestId: "5e52d643ff366d01abe73b1f",
     date: props.date,
     hours: props.hours,
-    totalPrice: 10,
-    placeName: undefined
+    totalPrice: "",
+
+
+    long: props.pin.longitude,
+    lat: props.pin.latitude,
+    costPerKWh: props.pin.costPerKWh,
+    numberOfChargers: props.pin.numberOfChargers,
+    title: props.pin.title,
+    street: props.pin.street,
+    city: props.pin.city,
+    stateOrProvince: props.pin.stateOrProvince,
+    postCode: props.pin.postCode,
+    countryId: props.pin.countryId,
+    latitude: props.pin.latitude,
+    longitude: props.pin.longitude,
+    generalComments: props.pin.generalComments,
+    active: props.pin.active,
+    dateAvailableStart: props.pin.dateAvailableStart,
+    dateAvailableEnd: props.pin.dateAvailableEnd,
+    hourStart: props.pin.hourStart,
+    hourEnd: props.pin.hourEnd,
+    connectionTypeId: props.pin.connectionTypeId._id,
+    ownerId: props.pin.ownerId._id
   })
 
   const handleInputChange = e => {
     const { id, value } = e.target;
-    setForm({...form, [id]: value});
+    setForm({ ...form, [id]: value });
     console.log('This is my form', form);
   }
 
@@ -68,52 +89,51 @@ export default function FormDialog(props) {
       .catch(function (error) {
         console.log(error);
       });
-    };
-
+  };
 
   // INPUT VALIDATION
 
-    // const handleExitDate = e => {
-    //   const { id, value } = e.target;
-    //   const vDate = validateDate(value);
+  // const handleExitDate = e => {
+  //   const { id, value } = e.target;
+  //   const vDate = validateDate(value);
 
-    // function validateDate(date) {
-    //   var vDate = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
-    //   return vDate.test(String(date));
-    // }
+  // function validateDate(date) {
+  //   var vDate = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
+  //   return vDate.test(String(date));
+  // }
 
-    //   if (id === 'date' && !vDate) {
-    //     console.log('Date is here')
-    //     setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Invalid date" })
-    //   } else {
-    //     setForm({ ...form, ["errorDate"]: false, ["helperTextDate"]: "" })
-    //   }
-    // }
+  //   if (id === 'date' && !vDate) {
+  //     console.log('Date is here')
+  //     setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Invalid date" })
+  //   } else {
+  //     setForm({ ...form, ["errorDate"]: false, ["helperTextDate"]: "" })
+  //   }
+  // }
 
-    // const handleExitHours = e => {
-    //   const { id, value } = e.target;
-    //   const vHours = validateHours(value);
+  // const handleExitHours = e => {
+  //   const { id, value } = e.target;
+  //   const vHours = validateHours(value);
 
-    // function validateHours(hours) {
-    //   var vHours = /([1-9]|1[0-9]|2[0-4])/;
-    //   return vHours.test(String(hours));
-    // }
+  // function validateHours(hours) {
+  //   var vHours = /([1-9]|1[0-9]|2[0-4])/;
+  //   return vHours.test(String(hours));
+  // }
 
-    //   if (id === 'hours' && !vHours) {
-    //     console.log('Hours is here')
-    //     setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "You can book chargers only within 24 hours" })
-    //   } else {
-    //     setForm({ ...form, ["errorHours"]: false, ["helperTextHours"]: "" })
-    //   }
-    // }
+  //   if (id === 'hours' && !vHours) {
+  //     console.log('Hours is here')
+  //     setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "You can book chargers only within 24 hours" })
+  //   } else {
+  //     setForm({ ...form, ["errorHours"]: false, ["helperTextHours"]: "" })
+  //   }
+  // }
 
-
-
-    const totalPriceMessage = () => {
-      setForm({...form, ['placeName']: props.pin.placeName})
-    }
-
-
+  const totalPriceMessage = () => {
+    console.log(typeof props.pin.costPerKWh)
+    console.log(typeof props.pin.hours)
+    const cost = props.pin.costPerKWh * form.hours
+    console.log('TOTAL PRICE = ' + cost)
+    setForm({ ...form, ['totalPrice']: cost })
+  }
 
 
   return (
@@ -141,8 +161,7 @@ export default function FormDialog(props) {
             // helperText={form.helperTextDate}
             value={form.date}
             onChange={handleInputChange}
-            // onBlur={handleExitDate}
-            onBlur={totalPriceMessage}
+          // onBlur={handleExitDate}
           />
           <TextField
             margin="dense"
@@ -155,11 +174,14 @@ export default function FormDialog(props) {
             value={form.hours}
             onChange={handleInputChange}
             // onBlur={handleExitHours}
+            onBlur={totalPriceMessage}
           />
-          <p> 
-            <h4>This is the total price of your charge:</h4> 
-            {form.placeName}
-          </p>
+          <div>
+            <h4>This is the total price of your charge:</h4>
+            {form.totalPrice}
+          </div>
+
+
         </DialogContent>
         <DialogActions>
           <Button onClick={handlePostData} color="primary">

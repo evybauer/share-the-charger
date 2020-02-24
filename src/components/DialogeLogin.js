@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
 
@@ -45,37 +46,36 @@ export default function DialogeLogin(props) {
     // INPUT VALIDATION
 
     const handleExitEmail = e => {
-      const { id, value } = e.target;
+      const { value } = e.target;
       const em = validateEmail(value);
-
-      console.log(em)
-      console.log(id)
-
+  
       function validateEmail(email) {
         var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
       }
   
-      if (id === 'email' && !em) {
-        console.log('it is here')
+      if (!em && value !== "") {
         setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "Invalid e-mail address" })
+      } else if (value === "") {
+        setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "E-mail address is empty" })
       } else {
         setForm({ ...form, ["errorEmail"]: false, ["helperTextEmail"]: "" })
       }
     }
-
+  
     const handleExitPassword = e => {
-      const { id, value } = e.target;
+      const { value } = e.target;
       const pw = validatePassword(value);
-
+  
       function validatePassword(password) {
         var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
         return re.test(String(password).toLowerCase());
       }
   
-      if (id === 'password' && !pw) {
-        console.log('it is here')
-        setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Incorrect Password" })
+      if (!pw && value !== "") {
+        setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password cannot contain special characteres (@#!$%ˆ&*), must be 8 characters or longer, at least one letter and one number" })
+      } else if (value === "") {
+        setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password is empty" })
       } else {
         setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
       }
@@ -91,6 +91,9 @@ export default function DialogeLogin(props) {
       >
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
         <DialogContent>
+          <DialogContentText >
+            Welcome back! <br/> Please, login first to start sharing and charging. 
+            </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
