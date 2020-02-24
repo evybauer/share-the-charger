@@ -43,6 +43,7 @@ export default function DialogeSignUp(props) {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        setForm({})
         props.handleClose()
       })
       .catch(function (error) {
@@ -53,147 +54,175 @@ export default function DialogeSignUp(props) {
     
   // INPUT VALIDATION
 
-    const handleExitEmail = e => {
-      const { id, value } = e.target;
-      const em = validateEmail(value);
+  const handleExitFirstName = e => {
+    const { value } = e.target;
+    const fn = validateFirstName(value);
 
-      console.log(em)
-      console.log(id)
+  function validateFirstName(firstName) {
+    var characteres = /[a-zA-Z]/;
+    return characteres.test(String(firstName));
+  }
 
-      function validateEmail(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(String(email).toLowerCase());
-      }
+   if (!fn && value !== "") {
+      setForm({ ...form, ["errorFirstName"]: true, ["helperTextFirstName"]: "Numbers are not allowed on name" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorFirstName"]: true, ["helperTextFirstName"]: "First name is empty" })
+    } else {
+      setForm({ ...form, ["errorFirstName"]: false, ["helperTextFirstName"]: "" })
+    }
+  }
+
+  const handleExitLastName = e => {
+    const { value } = e.target;
+    const ln = validateLastName(value);
+
+  function validateLastName(lastName) {
+    var characteres = /[a-zA-Z]/;
+    return characteres.test(String(lastName));
+  }
+
+   if (!ln && value !== "") {
+      setForm({ ...form, ["errorLastName"]: true, ["helperTextLastName"]: "Empty field or numbers are not allowed on name" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorLastName"]: true, ["helperTextLastName"]: "Last name is empty" })
+    } else {
+      setForm({ ...form, ["errorLastName"]: false, ["helperTextLastName"]: "" })
+    }
+  }
+
+  const handleExitDateOfBirth = e => {
+    const { value } = e.target;
+    const db = validateDateOfBirth(value);
+
+  function validateDateOfBirth(dateOfBirth) {
+    var characteres = /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/;
+    return characteres.test(String(dateOfBirth));
+  }
+
+   if (!db && value !== "") {
+      setForm({ ...form, ["errorDateOfBirth"]: true, ["helperTextDateOfBirth"]: "Date of birth is invalid" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorDateOfBirth"]: true, ["helperTextDateOfBirth"]: "Date of birth is empty" })
+    } else {
+      setForm({ ...form, ["errorDateOfBirth"]: false, ["helperTextDateOfBirth"]: "" })
+    }
+  }
+
+
+
+  const handleExitEmail = e => {
+    const { value } = e.target;
+    const em = validateEmail(value);
+
+    function validateEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+    }
+
+    if (!em && value !== "") {
+      setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "Invalid e-mail address" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "E-mail address is empty" })
+    } else {
+      setForm({ ...form, ["errorEmail"]: false, ["helperTextEmail"]: "" })
+    }
+  }
+
+  const handleExitPassword = e => {
+    const { value } = e.target;
+    const pw = validatePassword(value);
+
+    function validatePassword(password) {
+      var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+      return re.test(String(password).toLowerCase());
+    }
+
+    if (!pw && value !== "") {
+      setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password cannot contain special characteres (@#!$%ˆ&*), must be 8 characters or longer, at least one letter and one number" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password is empty" })
+    } else {
+      setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
+    }
+  }
+
+  const handleExitPhoneNumber = e => {
+    const { value } = e.target;
+    const pn = validatePhoneNumber(value);
+
+  function validatePhoneNumber(phoneNumber) {
+    var pn = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
+    return pn.test(String(phoneNumber));
+  }
+
+    if (!pn && value !== "") {
+      setForm({ ...form, ["errorPhoneNumber"]: true, ["helperTextPhoneNumber"]: "Invalid Phone Number" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorPhoneNumber"]: true, ["helperTextPhoneNumber"]: "Phone Number is empty" })
+    } else {
+      setForm({ ...form, ["errorPhoneNumber"]: false, ["helperTextPhoneNumber"]: "" })
+    }
+  }
+
+
   
-      if (!em && value !== "") {
-        setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "Invalid e-mail address" })
-      } else if (value === "") {
-        setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "E-mail address is empty" })
-      } else {
-        setForm({ ...form, ["errorEmail"]: false, ["helperTextEmail"]: "" })
-      }
+  const handleExitCreditCardNumber = e => {
+    const { value } = e.target;
+    const cc = validateCreditCardNumber(value);
+
+  function validateCreditCardNumber(creditCardNumber) {
+    var cc = /^.{6,}$/;
+    return cc.test(String(creditCardNumber));
+  }
+
+    if (!cc && value !== "") {
+      setForm({ ...form, ["errorCreditCardNumber"]: true, ["helperTextCreditCardNumber"]: "Invalid Credit Card Number" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorCreditCardNumber"]: true, ["helperTextCreditCardNumber"]: "Credit Card Number is empty" })
+    } else {
+      setForm({ ...form, ["errorCreditCardNumber"]: false, ["helperTextCreditCardNumber"]: "" })
     }
+  }
 
-    const handleExitPassword = e => {
-      const { id, value } = e.target;
-      const pw = validatePassword(value);
+  const handleExitCreditCardExpirationDate = e => {
+    const { value } = e.target;
+  //   const cced = validateCreditCardExpirationDate(value);
 
-      function validatePassword(password) {
-        var re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-        return re.test(String(password).toLowerCase());
-      }
+  // function validateCreditCardExpirationDate(creditCardExpirationDate) {
+  //    var cced = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
+  //   return cced.test(String(creditCardExpirationDate));
+  //}
+  // console.log(value)
+  let newCcExpData = new Date(value + "-29");
+  console.log(newCcExpData);
+  if (value !== "" && newCcExpData < new Date()) {
+    setForm({ ...form, ["errorCreditCardExpirationDate"]: true, ["helperTextCreditCardExpirationDate"]: "Credit Card Expiration Date invalid" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorCreditCardExpirationDate"]: true, ["helperTextCreditCardExpirationDate"]: "Credit Card Cvv is empty" })
+    } else {
+      setForm({ ...form, ["errorCreditCardExpirationDate"]: false, ["helperTextCreditCardExpirationDate"]: "" })
+    }
+  }
   
-      if (id === 'password' && !pw) {
-        console.log(value)
-        setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password must be 8 characters or longer, at least one letter and one number" })
-      } else {
-        setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
-      }
-    }
-  
-    const handleExitFirstName = e => {
-      const { id, value } = e.target;
-      const fn = validateFirstName(value);
 
-    function validateFirstName(firstName) {
-      var characteres = /[a-zA-Z]/;
-      return characteres.test(String(firstName));
-    }
+  const handleExitCreditCardCvv = e => {
+    const { value } = e.target;
 
-     if (id === 'firstName' && !fn) {
-        console.log('First Name it is here')
-        setForm({ ...form, ["errorFirstName"]: true, ["helperTextFirstName"]: "Empty field or numbers are not allowed on name" })
-      } else {
-        setForm({ ...form, ["errorFirstName"]: false, ["helperTextFirstName"]: "" })
-      }
+    const cvv = validateCreditCardCvv(value);
+  function validateCreditCardCvv(creditCardCvv) {
+    var cvv = /^[0-9]{3,4}$/;
+    return cvv.test(String(creditCardCvv));
+  }
+
+    if (!cvv && value !== "") {
+      setForm({ ...form, ["errorCreditCardCvv"]: true, ["helperTextCreditCardCvv"]: "Incorrect CVV" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorCreditCardCvv"]: true, ["helperTextCreditCardCvv"]: "Credit Card Cvv is empty" })
+    } else {
+      setForm({ ...form, ["errorCreditCardCvv"]: false, ["helperTextCreditCardCvv"]: "" })
     }
 
-    const handleExitLastName = e => {
-      const { id, value } = e.target;
-      const ln = validateLastName(value);
-
-    function validateLastName(LastName) {
-      var characteres = /[a-zA-Z]/;
-      return characteres.test(String(LastName));
-    }
-
-     if (id === 'lastName' && !ln) {
-        console.log('Last Name it is here')
-        setForm({ ...form, ["errorLastName"]: true, ["helperTextLastName"]: "Empty field or numbers are not allowed on name" })
-      } else {
-        setForm({ ...form, ["errorLastName"]: false, ["helperTextLastName"]: "" })
-      }
-    }
-
-    const handleExitPhoneNumber = e => {
-      const { id, value } = e.target;
-      const pn = validatePhoneNumber(value);
-
-    function validatePhoneNumber(creditCardCvv) {
-      var pn = /^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$/;
-      return pn.test(String(creditCardCvv));
-    }
-
-      if (id === 'phoneNumber' && !pn) {
-        // console.log('Phone Number is here')
-        setForm({ ...form, ["errorPhoneNumber"]: true, ["helperTextPhoneNumber"]: "Invalid Phone Number" })
-      } else {
-        setForm({ ...form, ["errorPhoneNumber"]: false, ["helperTextPhoneNumber"]: "" })
-      }
-
-    }
-    
-    const handleExitCreditCardNumber = e => {
-      const { id, value } = e.target;
-      const cc = validateCreditCardNumber(value);
-
-    function validateCreditCardNumber(creditCardNumber) {
-      var cc = /^.{6,}$/;
-      return cc.test(String(creditCardNumber));
-    }
-
-      if (id === 'creditCardNumber' && !cc) {
-        console.log('First Name it is here')
-        setForm({ ...form, ["errorCreditCardNumber"]: true, ["helperTextCreditCardNumber"]: "Invalid Credit Card Number" })
-      } else {
-        setForm({ ...form, ["errorCreditCardNumber"]: false, ["helperTextCreditCardNumber"]: "" })
-      }
-    }
-
-    const handleExitCreditCardExpirationDate = e => {
-      const { id, value } = e.target;
-      const cced = validateCreditCardExpirationDate(value);
-
-    function validateCreditCardExpirationDate(creditCardExpirationDate) {
-      var cced = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
-      return cced.test(String(creditCardExpirationDate));
-    }
-
-      if (id === 'creditCardExpirationDate' && !cced) {
-        console.log('Credit Card Expiration Date is here')
-        setForm({ ...form, ["errorCreditCardExpirationDate"]: true, ["helperTextCreditCardExpirationDate"]: "Credit Card Expiration Date invalid" })
-      } else {
-        setForm({ ...form, ["errorCreditCardExpirationDate"]: false, ["helperTextCreditCardExpirationDate"]: "" })
-      }
-    }
-
-    const handleExitCreditCardCvv = e => {
-      const { id, value } = e.target;
-
-      const cvv = validateCreditCardCvv(value);
-    function validateCreditCardCvv(creditCardCvv) {
-      var cvv = /^[0-9]{3,4}$/;
-      return cvv.test(String(creditCardCvv));
-    }
-
-      if (id === 'creditCardCvv' && !cvv) {
-        console.log('Credit Card Cvv is here')
-        setForm({ ...form, ["errorCreditCardCvv"]: true, ["helperTextCreditCardCvv"]: "Incorrect CVV" })
-      } else {
-        setForm({ ...form, ["errorCreditCardCvv"]: false, ["helperTextCreditCardCvv"]: "" })
-      }
-
-    }
+  }
 
 
   return (
@@ -218,7 +247,6 @@ export default function DialogeSignUp(props) {
             fullWidth
             error={form.errorFirstName}
             helperText={form.helperTextFirstName}
-            // helperText={form.firstName === "" ? "Empty field!' : ' '}  
             value={form.firstName}
             onChange={handleInputChange}
             onBlur={handleExitFirstName}
@@ -243,11 +271,11 @@ export default function DialogeSignUp(props) {
             label="Date of Birth"
             type="date"
             fullWidth
-            // error={form.error}
-            // helperText={form.helperText}
+            error={form.errorDateOfBirth}
+            helperText={form.helperTextDateOfBirth}
             value={form.dateOfBirth}
             onChange={handleInputChange}
-            // onBlur={handleExit}
+            onBlur={handleExitDateOfBirth}
           />
           <TextField
             margin="dense"
