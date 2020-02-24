@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
@@ -16,6 +16,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import axios from 'axios';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -35,80 +36,90 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowUpward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-  };
+};
 
 export default function MaterialTableDemo() {
-  const [state, setState] = React.useState({
 
-    columns: [
-      { title: 'Title', field: 'title' },
-      { title: 'Cost per Minute', field: 'costPerKWh' },
-      { title: 'Number of Chargers', field: 'numberOfChargers' },
-      { title: 'Street', field: 'street' },
-      { title: 'City', field: 'city' },
-      { title: 'Province or State', field: 'provinceOrState' },
-      { title: 'Country', field: 'country' },
-      { title: 'Latitude', field: 'latitude' },
-      { title: 'Longitude', field: 'longitude' },
-      { title: 'General Comments', field: 'generalComments' },
-      { title: 'Type of Charger', field: 'typeOfCharger' },
-      { title: 'Active', field: 'active' },
-      { title: 'Start Date', field: 'dateAvailableStart'},
-      { title: 'End Date', field: 'dateAvailableEnd' },
-      { title: 'Start Hour', field: 'hourStart' },
-      { title: 'End Hour', field: 'hourEnd' },
-      { title: 'Connection Type ID', field: 'connectionTypeId' },
-    ],
-
-    data: [
-      { 
-        title: 'Charger Ruby', 
-        costPerKWh: 20,
-        numberOfChargers: 1,
-        street: '401 West Georgia',
-        city: 'Vancouver',
-        provinceOrState: 'BC',
-        country: 'CA',
-        latitude: 49.281290,
-        longitude: -123.114670,
-        generalComments: 'Lightly used.',
-        typeOfCharger: 'J1772',
-        active: true,
-        dateAvailableStart: '2020-02-20',
-        dateAvailableEnd: '2050-02-20',
-        hourStart: 8,
-        hourEnd: 15,
-        connectionTypeId: 1
+  const columns = [
+    { title: 'Title', field: 'title' },
+    { title: 'Cost per KWh', field: 'costPerKWh' },
+    { title: 'Number of Chargers', field: 'numberOfChargers' },
+    { title: 'Street', field: 'street' },
+    { title: 'City', field: 'city' },
+    { title: 'Province or State', field: 'stateOrProvince' },
+    { title: 'Country', field: 'countryId' },
+    { title: 'Latitude', field: 'latitude' },
+    { title: 'Longitude', field: 'longitude' },
+    { title: 'General Comments', field: 'generalComments' },
+    { title: 'Type of Charger', field: 'typeOfCharger' },
+    { title: 'Active', field: 'active' },
+    { title: 'Start Date', field: 'dateAvailableStart' },
+    { title: 'End Date', field: 'dateAvailableEnd' },
+    { title: 'Start Hour', field: 'hourStart' },
+    { title: 'End Hour', field: 'hourEnd' },
+    { title: 'Connection Type ID', field: 'connectionTypeId' },
+  ]
+  
+    const [state, setState] = React.useState([
+      {
+        // title: 'Charger Ruby',
+        // // costPerKWh: 20,
+        // // numberOfChargers: 1,
+        // // street: '401 West Georgia',
+        // // city: 'Vancouver',
+        // // provinceOrState: 'BC',
+        // // country: 'CA',
+        // // latitude: 49.281290,
+        // // longitude: -123.114670,
+        // // generalComments: 'Lightly used.',
+        // // typeOfCharger: 'J1772',
+        // // active: true,
+        // // dateAvailableStart: '2020-02-20',
+        // // dateAvailableEnd: '2050-02-20',
+        // // hourStart: 8,
+        // // hourEnd: 15,
+        // // connectionTypeId: 1
       },
     ],
-  });
+  );
+
+  useEffect(() => {
+    const url = "http://localhost:8080/chargers/byOwner/5e52d643ff366d01abe73b1f";
+
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        let getCharger = res.data.charger
+        console.log(getCharger) //array of dictionaries
+        const ma = getCharger.map(({ _id, ownerId, connectionTypeId, __v, ...title }) => title)
+        console.log(ma)
+
+        setState(ma)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [])
+
+
 
   return (
     <MaterialTable
       title="Chargers List"
-      columns={state.columns}
-      data={state.data}
+      columns={columns}
+      data={state}
       icons={tableIcons}
       editable={{
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
         onRowDelete: oldData =>
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
               setState(prevState => {
-                const data = [...prevState.data];
+                const data = [...prevState];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
               });

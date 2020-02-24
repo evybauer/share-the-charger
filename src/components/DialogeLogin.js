@@ -35,6 +35,7 @@ export default function DialogeLogin(props) {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        props.handleClose();
       })
       .catch(function (error) {
         console.log(error);

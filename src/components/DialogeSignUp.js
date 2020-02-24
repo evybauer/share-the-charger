@@ -43,14 +43,14 @@ export default function DialogeSignUp(props) {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        props.handleClose()
       })
       .catch(function (error) {
         console.log(error);
       });
     }
 
-  // /([a-z0-9])+$/i -- Empty
-
+    
   // INPUT VALIDATION
 
     const handleExitEmail = e => {
@@ -65,9 +65,10 @@ export default function DialogeSignUp(props) {
         return re.test(String(email).toLowerCase());
       }
   
-      if (id === 'email' && !em) {
-        console.log('it is here')
+      if (!em && value !== "") {
         setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "Invalid e-mail address" })
+      } else if (value === "") {
+        setForm({ ...form, ["errorEmail"]: true, ["helperTextEmail"]: "E-mail address is empty" })
       } else {
         setForm({ ...form, ["errorEmail"]: false, ["helperTextEmail"]: "" })
       }
@@ -83,7 +84,7 @@ export default function DialogeSignUp(props) {
       }
   
       if (id === 'password' && !pw) {
-        console.log('it is here')
+        console.log(value)
         setForm({ ...form, ["errorPassword"]: true, ["helperTextPassword"]: "Password must be 8 characters or longer, at least one letter and one number" })
       } else {
         setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
@@ -328,7 +329,7 @@ export default function DialogeSignUp(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handlePostData(props.handleClose)} color="primary">
+          <Button onClick={handlePostData} color="primary">
             Sign Up
           </Button>
           <Button onClick={props.handleClose} color="primary">

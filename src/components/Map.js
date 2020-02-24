@@ -108,7 +108,7 @@ export default function Map() {
             <h2>{selectedPoint.placeName}</h2>
             {/* <p>{selectedPoint.lat}</p>
             <p>{selectedPoint.long}</p> */}
-            <FormDialog />
+            <FormDialog pin={selectedPoint}/>
           </div>
         </Popup>
       ) : null }

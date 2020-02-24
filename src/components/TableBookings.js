@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
@@ -16,6 +16,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import axios from 'axios';
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -38,57 +39,64 @@ const tableIcons = {
   };
 
 export default function MaterialTableDemo() {
-  const [state, setState] = React.useState({
-    columns: [
-      {
-        title: 'Charger Address',
-        field: 'street',
-      },
+
+  const columns = [
+      // { title: 'Charger Address', field: 'street' },
       { title: 'Date', field: 'date' },
-      { title: 'Time', field: 'time' },
+      { title: 'Hours', field: 'hours' },
       { title: 'Total Price', field: 'totalPrice'},
-    ],
-    data: [
+    ]
+
+    const [state, setState] = React.useState([
       { 
-        street: '401 West Georgia', 
-        date: '2020-02-20', 
-        time: '11.00',
-        totalPrice: 15},
-      {
-        street: '311 Howe', 
-        date: '2020-10-03',
-        time: '09.00',
-        totalPrice: 10,
+      //   street: '401 West Georgia', 
+      //   date: '2020-02-20', 
+      //   time: '11.00',
+      //   totalPrice: 15},
+      // {
+      //   street: '311 Howe', 
+      //   date: '2020-10-03',
+      //   time: '09.00',
+      //   totalPrice: 10,
       },
     ],
-  });
+  );
+
+  useEffect(() => {
+    const url = "http://localhost:8080/reservations/byGuest/5e52d643ff366d01abe73b1f";
+
+    axios
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        let getReservation = res.data.reservation
+        console.log(getReservation) //array of dictionaries
+        const ma = getReservation.map(({ _id, chargerId, guestId, __v, ...date }) => date)
+        console.log(ma)
+
+        setState(ma)
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [])
 
   return (
     <MaterialTable
       title="Bookings history"
-      columns={state.columns}
-      data={state.data}
+      columns={columns}
+      data={state}
       icons={tableIcons}
       editable={{
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState(prevState => {
-                  const data = [...prevState.data];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
         onRowDelete: oldData =>
           new Promise(resolve => {
             setTimeout(() => {
               resolve();
               setState(prevState => {
-                const data = [...prevState.data];
+                const data = [...prevState];
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
               });
