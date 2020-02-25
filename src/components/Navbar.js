@@ -21,7 +21,7 @@ import EvStationRoundedIcon from '@material-ui/icons/EvStationRounded';
 import AddLocationRoundedIcon from '@material-ui/icons/AddLocationRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
-
+import logo from '../assets/Logo.png';
 
 const drawerWidth = 240;
 
@@ -34,6 +34,7 @@ const useStyles = makeStyles(theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    backgroundColor: '#66CDAA'      
   },
   // button: {
   //   marginRight: 'right',
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
   },
   typography: {
     flex: 1,
+    marginLeft: '1rem',
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -90,6 +92,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PersistentDrawerLeft(props) {
+
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -103,7 +107,32 @@ export default function PersistentDrawerLeft(props) {
   };
   console.log(`1st props name : ${props}`)
 
+  //JEREMY'S CODE: 
+  // let titleText = '';
+  // if (props.user) {
+  //   titleText = "Share the Charger, you fool";
+  // } else {
+  //   titleText = "Share the Charger!  We love our users!  Sign up now!";
+  // }
   
+  function LoginButton() {
+    if (props.userState.isAuthenticated) {
+     return <Button color="inherit" onClick={props.logoutClick} userState={props.userState} setUserState={props.setUserState}>Logout</Button>    
+    } else {
+      return (
+      <>
+        <Button color="inherit" open={open} onClick={props.loginClick} userState={props.userState} setUserState={props.setUserState}>Login</Button> |
+        <Button color="inherit" open={open} onClick={props.signUpClick} userState={props.userState} setUserState={props.setUserState}>Sign Up</Button> 
+      </>
+      )
+    }
+  }
+  //Login
+  //Signup
+  //Logout
+  
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -114,6 +143,7 @@ export default function PersistentDrawerLeft(props) {
         })}
       >
         <Toolbar>
+        { props.userState.isAuthenticated ? // CHECK IF USER IS TRUE
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -122,14 +152,21 @@ export default function PersistentDrawerLeft(props) {
             className={clsx(classes.menuButton, open && classes.hide)}
           >
             <MenuIcon />
+            
           </IconButton>
+          : '' }
+          <img src={logo} height="30px" alt="Logo" />
           <Typography variant="h6" noWrap className={classes.typography}>
-            Share the Charger
-          </Typography>
-              <Button color="inherit" open={open} onClick={props.loginClick}>Login</Button> |
-              <Button color="inherit" open={open} onClick={props.signUpClick}>Sign Up</Button> 
+            Share the Charger{ props.userState.isAuthenticated ? `, ${props.userState.firstName}`  : "" }
+            {/* { titleText } */}
+          </Typography>          
+
+          <LoginButton  />
         </Toolbar>
       </AppBar>
+
+
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -140,9 +177,11 @@ export default function PersistentDrawerLeft(props) {
         }}
       >
         <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton  onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
+          </IconButton>  
+          
+
         </div>
         <Divider />
         <List>
@@ -180,13 +219,21 @@ export default function PersistentDrawerLeft(props) {
             </ListItem>
           ))}
         </List>
+
       </Drawer>
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
       >
       </main>
+      
+      : <IconButton /> }
+
+      
     </div>
+    
+
   );
 }
