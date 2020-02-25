@@ -7,6 +7,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem";
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles'; 
 import axios from 'axios';
 
 import {
@@ -21,7 +24,29 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit / 2,
+    top: theme.spacing.unit / 2,
+    color: theme.palette.grey[900],
+  },
+}));
+
 export default function AddChargerDialog(props) {
+
+  const classes = useStyles();
 
   const [form, setForm] = useState({
     title: props.title,
@@ -174,16 +199,7 @@ export default function AddChargerDialog(props) {
 
   const handleExitCostPerKwh = e => {
     const { value } = e.target;
-    const cpk = validateCostPerKwh(value);
-
-  function validateCostPerKwh(costPerKWh) {
-    var characteres = /^(\(?\+?[0-9]*\)?)?[0-9_\-()]*$/;
-    return characteres.test(String(costPerKWh));
-  }
-
-   if (!cpk && value !== "") {
-      setForm({ ...form, ["errorCostPerKwh"]: true, ["helperTextCostPerKwh"]: "Characters are not allowed on cost per KWh" })
-    } else if (value === "") {
+    if (value === "") {
       setForm({ ...form, ["errorCostPerKwh"]: true, ["helperTextCostPerKwh"]: "Cost per KWh is empty" })
     } else {
       setForm({ ...form, ["errorCostPerKwh"]: false, ["helperTextCostPerKwh"]: "" })
@@ -285,7 +301,7 @@ export default function AddChargerDialog(props) {
     const ct = validateCountry(value);
 
   function validateCountry(country) {
-    var characteres = /^[A-Z]+$/;
+    var characteres = /[a-zA-Z]/;
     return characteres.test(String(country));
   }
 
@@ -389,6 +405,9 @@ export default function AddChargerDialog(props) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Add Your Charger</DialogTitle>
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={props.handleClose}>
+          <CloseIcon />
+        </IconButton>
         <form onSubmit={handleSubmit}>
           <DialogContent>
             <DialogContentText>
