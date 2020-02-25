@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Map from "./components/Map";
 import Navbar from "./components/Navbar";
 import DialogeTableBookings from "./components/DialogeTableBookings";
@@ -9,7 +9,9 @@ import DialogeLogin from "./components/DialogeLogin";
 import DialogeSignUp from "./components/DialogeSignUp";
 
 export default function App() {
-  
+
+  const [masterPoint, setMasterPoint] = useState([]);
+
   const [userState, setUserState] = React.useState({
     isAuthenticated: false
   });
@@ -76,14 +78,16 @@ export default function App() {
       logoutClick={toggleLogout}
       loginClick={toggleLogin}
       signUpClick={toggleSignUp}
+      masterPoint={masterPoint} //create state of parent component --- instead of child controlling the state, the parent will
+      setMasterPoint={setMasterPoint} //create state of parent component --- instead of child controlling the state, the parent will
     />
     <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
-    <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState} masterPoint={masterPoint} setMasterPoint={setMasterPoint}/>
     <DialogeTableChargers open={openMyChargers} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
     <DialogeMyAccount open={openMyAccount} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
     <DialogeLogin open={openLogin} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
     <DialogeSignUp open={openSignUp} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
-    <Map />
+    <Map masterPoint={masterPoint} setMasterPoint={setMasterPoint} userState={userState} setUserState={setUserState}/>
   </div>
   )
 }
