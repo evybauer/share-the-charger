@@ -46,9 +46,9 @@ export default function MaterialTableDemo(props) {
       { title: 'Last Name', field: 'lastName' },
       { title: 'Date of Birth', field: 'dateOfBirth', type: 'numeric' },
       { title: 'Email', field: 'email', type: 'email' },
-      { title: 'Password', field: 'password', type: 'password' },
+      // { title: 'Password', field: 'password', type: 'password' },
       { title: 'Phone Number', field: 'phoneNumber', type: 'numeric' },
-      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' },
+      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' }, 
       { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate'},
       { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
     ]
@@ -104,21 +104,21 @@ export default function MaterialTableDemo(props) {
       columns={columns}
       data={state}
       icons={tableIcons}
-      editable={{
-        onRowUpdate: (newData, oldData) =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              if (oldData) {
-                setState(prevState => {
-                  const data = [...prevState];
-                  data[data.indexOf(oldData)] = newData;
-                  return { ...prevState, data };
-                });
-              }
-            }, 600);
-          }),
-      }}
+      // editable={{
+      //   onRowUpdate: (newData, oldData) =>
+      //     new Promise(resolve => {
+      //       setTimeout(() => {
+      //         resolve();
+      //         if (oldData) {
+      //           setState(prevState => {
+      //             const data = [...prevState];
+      //             data[data.indexOf(oldData)] = newData;
+      //             return { ...prevState, data };
+      //           });
+      //         }
+      //       }, 600);
+      //     }),
+      // }}
     />
   );
 }
