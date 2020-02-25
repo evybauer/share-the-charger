@@ -156,6 +156,7 @@ export default function FormDialog(props) {
             id="date"
             label="Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             fullWidth
             // error={form.errorDate}
             // helperText={form.helperTextDate}
