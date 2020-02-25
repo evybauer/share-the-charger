@@ -105,15 +105,7 @@ export default function PersistentDrawerLeft(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  console.log(`1st props name : ${props}`)
-
-  //JEREMY'S CODE: 
-  // let titleText = '';
-  // if (props.user) {
-  //   titleText = "Share the Charger, you fool";
-  // } else {
-  //   titleText = "Share the Charger!  We love our users!  Sign up now!";
-  // }
+  // console.log(`1st props name : ${props}`)
   
   function LoginButton() {
     if (props.userState.isAuthenticated) {
@@ -127,10 +119,6 @@ export default function PersistentDrawerLeft(props) {
       )
     }
   }
-  //Login
-  //Signup
-  //Logout
-  
 
 
   return (
@@ -143,7 +131,7 @@ export default function PersistentDrawerLeft(props) {
         })}
       >
         <Toolbar>
-        { props.userState.isAuthenticated ? // CHECK IF USER IS TRUE
+        { props.userState.isAuthenticated ? 
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -158,7 +146,6 @@ export default function PersistentDrawerLeft(props) {
           <img src={logo} height="30px" alt="Logo" />
           <Typography variant="h6" noWrap className={classes.typography}>
             Share the Charger{ props.userState.isAuthenticated ? `, ${props.userState.firstName}`  : "" }
-            {/* { titleText } */}
           </Typography>          
 
           <LoginButton  />
@@ -204,7 +191,7 @@ export default function PersistentDrawerLeft(props) {
         </List>
         <List>
           {['My Chargers'].map((text, index) => (
-            <ListItem button key={text} open={open} onClick={props.myChargersClick}>
+            <ListItem button key={text} open={open} onClick={props.myChargersClick}  userState={props.userState} setUserState={props.setUserState}>
               <ListItemIcon>{index % 2 === 0 ? <EvStationRoundedIcon /> : < AddLocationRoundedIcon/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
@@ -221,17 +208,12 @@ export default function PersistentDrawerLeft(props) {
         </List>
 
       </Drawer>
-
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
         })}
       >
       </main>
-      
-      : <IconButton /> }
-
-      
     </div>
     
 
