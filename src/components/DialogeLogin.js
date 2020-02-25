@@ -6,6 +6,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles'; 
 import axios from 'axios';
 
 import {
@@ -20,7 +23,29 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit / 2,
+    top: theme.spacing.unit / 2,
+    color: theme.palette.grey[900],
+  },
+}));
+
 export default function DialogeLogin(props) {
+
+  const classes = useStyles();
 
   const [form, setForm] = useState({
     email: '',
@@ -123,6 +148,9 @@ export default function DialogeLogin(props) {
         aria-labelledby="form-dialog-title"
      >
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={props.handleClose}>
+          <CloseIcon />
+        </IconButton>
         <DialogContent>
           <DialogContentText >
             Welcome back! <br/> Please, login first to start sharing and charging. 
@@ -152,7 +180,6 @@ export default function DialogeLogin(props) {
             value={form.password}
             onChange={handleInputChange}
             onBlur={handleExitPassword}
-
           />
           </ThemeProvider>
         </DialogContent>
