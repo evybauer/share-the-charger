@@ -6,6 +6,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
+import { amber } from '@material-ui/core/colors';
+
+
 // import Dropdown from './Dropdown';
 // import { makeStyles } from '@material-ui/core/styles';
 // import InputLabel from '@material-ui/core/InputLabel';
@@ -158,7 +162,7 @@ export default function FormDialog(props) {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen} size="large" startIcon={<BatteryCharging20Icon style={{ color: amber[600] }}/>}>
         Book
       </Button>
       <Dialog
