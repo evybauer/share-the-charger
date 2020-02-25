@@ -48,7 +48,7 @@ export default function FullScreenDialog(props) {
           </Toolbar>
         </AppBar>
 
-      <TableMyAccount />
+      <TableMyAccount userState={props.userState}/>
 
       </Dialog>
     </div>

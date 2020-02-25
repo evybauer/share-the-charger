@@ -33,7 +33,7 @@ export default function FullScreenDialog(props) {
 
   return (
     <div>
-      <Dialog fullScreen open={props.open} onClose={props.handleClose} TransitionComponent={Transition}>
+      <Dialog fullScreen open={props.open} onClose={props.handleClose} TransitionComponent={Transition} >
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={props.handleClose} aria-label="close">
@@ -48,7 +48,7 @@ export default function FullScreenDialog(props) {
           </Toolbar>
         </AppBar>
 
-      <TableChargers />
+      <TableChargers userState={props.userState} />
 
       </Dialog>
     </div>

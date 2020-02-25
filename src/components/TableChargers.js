@@ -38,7 +38,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-export default function MaterialTableDemo() {
+export default function MaterialTableDemo(props) {
 
   const columns = [
     { title: 'Title', field: 'title' },
@@ -84,7 +84,9 @@ export default function MaterialTableDemo() {
   );
 
   useEffect(() => {
-    const url = "http://localhost:8080/chargers/byOwner/5e52d643ff366d01abe73b1f";
+    console.log("THIS IS MY STATE OF USERSTATE ON CHARGERS")
+    console.log(props.userState)
+    const url = "http://localhost:8080/chargers/byOwner/" + props.userState.id;
 
     axios
       .get(url, {

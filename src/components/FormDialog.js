@@ -36,7 +36,7 @@ export default function FormDialog(props) {
   // INPUTS
   const [form, setForm] = useState({
     chargerId: props.pin.id,
-    guestId: "5e52d643ff366d01abe73b1f",
+    guestId: props.userState.id,
     date: props.date,
     hours: props.hours,
     totalPrice: "",
@@ -74,6 +74,10 @@ export default function FormDialog(props) {
     console.log(form);
     const body = JSON.stringify(form);
     const url = "http://localhost:8080/reservations";
+    const urlemail = "http://localhost:8080/email/reservation";
+    const bodyemail = {
+      emailTo: props.userState.email
+    }
 
     axios
       .post(url, body, {
@@ -85,7 +89,23 @@ export default function FormDialog(props) {
         console.log(res);
         console.log(res.data);
         handleClose();
+
+        /// SEND EMAIL TO USER THAT SIGNUP
+        axios
+        .post(urlemail, bodyemail, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       })
+
       .catch(function (error) {
         console.log(error);
       });

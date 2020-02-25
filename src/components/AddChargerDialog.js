@@ -6,6 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import MenuItem from "@material-ui/core/MenuItem";
 import axios from 'axios';
 
 import {
@@ -40,15 +41,24 @@ export default function AddChargerDialog(props) {
     hourStart: props.hourStart,
     hourEnd: props.hourEnd,
     connectionTypeId: props.connectionTypeId,
-    ownerId: "5e52d643ff366d01abe73b1f"
+    ownerId: props.userState.id
   });
 
   const [submitForm, setSubmitForm] = useState({})
+  const [connectionsType, setConnectionTypes] = useState([])
+  const [cType, setCType] = React.useState();
 
   const handleInputChange = e => {
     const { id, value } = e.target;
     setForm({ ...form, [id]: value });
     console.log('this is my form', form);
+  };
+
+  const handleInputChangeConnectionType = e => {
+    const { id, value } = e.target;
+    console.log(value)
+    setCType(value);
+    setForm({ ...form, ["connectionTypeId"]: value });
   };
 
   async function getGeoCode(address) {
@@ -57,7 +67,33 @@ export default function AddChargerDialog(props) {
   }
 
   useEffect(() => {
+    const url = "http://localhost:8080/connectionType";
+    const dropdown = []
+    console.log('SUBMITFORM:')
+    console.log(submitForm)
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        data.connection.map(m => {
+          const temp = {
+            id: m._id,
+            value: m.title,
+            label: m.title,
+          };
+          dropdown.push(temp);
+        });
+
+      });
+    setConnectionTypes(dropdown)
+  }, []);
+
+  useEffect(() => {
     const url = "http://localhost:8080/chargers";
+    const urlemail = "http://localhost:8080/email/addCharger";
+    const bodyemail = {
+      emailTo: props.userState.email
+    }
 
     console.log('SUBMITFORM:')
     console.log(submitForm)
@@ -69,34 +105,62 @@ export default function AddChargerDialog(props) {
       }
     })
       .then(res => {
-        console.log(res);
-        console.log(res.data);
-        console.log('form in handlePost Data', submitForm)
-        setForm({})
-        props.handleClose()
+        let submitFormCopy = { ...submitForm };
+        submitFormCopy.id = res.data.createdCharger._id;
+        props.setMasterPoint([...props.masterPoint, submitFormCopy]);
+
+
+        /// SEND EMAIL TO USER THAT SIGNUP
+        axios
+        .post(urlemail, bodyemail, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+        setForm({});
+        props.handleClose();
       })
       .catch(function (error) {
         console.log(error);
       })
+      
+      
   }, [submitForm]);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const address = form.street + ', ' + form.city + ", " + form.stateOrProvince + ' ' + form.postCode
-    console.log(address)
+    const address =
+      form.street +
+      ", " +
+      form.city +
+      ", " +
+      form.stateOrProvince +
+      " " +
+      form.postCode;
+    console.log(address);
     const latlong = await getGeoCode(address);
-    const f = form
+    const f = { ...form };
+    f.ownerId = props.userState.id;
     f.latitude = latlong.features[0].geometry.coordinates[1];
     f.longitude = latlong.features[0].geometry.coordinates[0];
-    f.active = true
-    console.log(f)
-    console.log(latlong.features[0].geometry.coordinates[1])
+    f.lat = latlong.features[0].geometry.coordinates[1];
+    f.long = latlong.features[0].geometry.coordinates[0];
+    f.typeOfCharger = "Domestic";
+    f.active = true;
+    console.log(f);
+    console.log(latlong.features[0].geometry.coordinates[1]);
+
     setSubmitForm(f);
-
   }
-
-  // const handlePostData = async () => {
-  // };
 
   const handleExitTitle = e => {
     const { value } = e.target;
@@ -494,17 +558,20 @@ export default function AddChargerDialog(props) {
               // onBlur={handleExitDateAvailableEnd}
             />
             <TextField
-              margin="dense"
               id="connectionTypeId"
-              label="Connection Type Id"
-              type="text"
+              select
+              label="Select"
               fullWidth
-              // error={form.errorDateAvailableEnd}
-              // helperText={form.helperTextDateAvailableEnd}
-              value={form.connectionTypeId}
-              onChange={handleInputChange}
-              // onBlur={handleExitDateAvailableEnd}
-            />
+              value={cType}
+              onChange={handleInputChangeConnectionType}
+              helperText="Select your connection type"
+            >
+              {connectionsType.map(option => (
+                <MenuItem key={option.id} value={option.id}>
+                  {option.value}
+                </MenuItem>
+              ))}
+            </TextField>
             </ThemeProvider>
           </DialogContent>
           <DialogActions>

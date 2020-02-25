@@ -44,6 +44,11 @@ export default function DialogeSignUp(props) {
     console.log(form);
     const body = JSON.stringify(form);
     const url = "http://localhost:8080/user/signup";
+    const urlemail = "http://localhost:8080/email/signup";
+    const bodyemail = {
+      emailTo: form.email
+    }
+
 
     axios
       .post(url, body, {
@@ -52,6 +57,7 @@ export default function DialogeSignUp(props) {
         }
       })
       .then(res => {
+
         console.log(res);
         console.log(res.data);
         const formCopy = {...form}
@@ -65,7 +71,24 @@ export default function DialogeSignUp(props) {
         setForm({...form, ['response']: true})
         console.log(error);
       });
-    }
+
+      /// SEND EMAIL TO USER THAT SIGNUP
+      axios
+      .post(urlemail, bodyemail, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+  
+    
 
     
   // INPUT VALIDATION
