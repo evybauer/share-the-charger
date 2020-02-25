@@ -7,6 +7,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
+import {
+  ThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles';
+import { amber } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: amber,
+  },
+});
 
 export default function DialogeSignUp(props) {
 
@@ -43,10 +54,15 @@ export default function DialogeSignUp(props) {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        const formCopy = {...form}
+        formCopy.isAuthenticated = true
+        formCopy.id = res.data.createdUser._id
         setForm({})
+        props.setUserState(formCopy)
         props.handleClose()
       })
       .catch(function (error) {
+        setForm({...form, ['response']: true})
         console.log(error);
       });
     }
@@ -224,6 +240,13 @@ export default function DialogeSignUp(props) {
 
   }
 
+  function ResponseBackend() {
+    if (form.response) {
+      return <h1> This e-mail is already used </h1>
+    } else {
+      return null
+    }
+  } 
 
   return (
     <div>
@@ -237,6 +260,7 @@ export default function DialogeSignUp(props) {
           <DialogContentText>
             Sign up and start sharing.
           </DialogContentText>
+          <ThemeProvider theme={theme}>
           <TextField
             autoFocus
             required
@@ -270,6 +294,7 @@ export default function DialogeSignUp(props) {
             id="dateOfBirth"
             label="Date of Birth"
             type="date"
+            InputLabelProps={{ shrink: true }}
             fullWidth
             error={form.errorDateOfBirth}
             helperText={form.helperTextDateOfBirth}
@@ -335,6 +360,7 @@ export default function DialogeSignUp(props) {
             id="creditCardExpirationDate"
             label="Credit Card Expiration Date"
             type="month"
+            InputLabelProps={{ shrink: true }}
             fullWidth
             error={form.errorCreditCardExpirationDate}
             helperText={form.helperTextCreditCardExpirationDate}
@@ -355,14 +381,18 @@ export default function DialogeSignUp(props) {
             onChange={handleInputChange}
             onBlur={handleExitCreditCardCvv}
           />
+        </ThemeProvider>
         </DialogContent>
+        <ResponseBackend form={form} />
         <DialogActions>
+        <ThemeProvider theme={theme}>
           <Button onClick={handlePostData} color="primary">
             Sign Up
           </Button>
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </div>
