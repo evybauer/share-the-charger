@@ -21,7 +21,9 @@ import EvStationRoundedIcon from '@material-ui/icons/EvStationRounded';
 import AddLocationRoundedIcon from '@material-ui/icons/AddLocationRounded';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
-import logo from '../assets/Logo.png';
+import NavLogo from '../assets/NavLogo.gif';
+
+
 
 const drawerWidth = 240;
 
@@ -143,7 +145,7 @@ export default function PersistentDrawerLeft(props) {
             
           </IconButton>
           : '' }
-          <img src={logo} height="30px" alt="Logo" />
+          <img src={NavLogo} height="30px" alt="Logo" />
           <Typography variant="h6" noWrap className={classes.typography}>
             Share the Charger{ props.userState.isAuthenticated ? `, ${props.userState.firstName}`  : "" }
           </Typography>          

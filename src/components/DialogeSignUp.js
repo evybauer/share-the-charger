@@ -6,7 +6,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import styled from 'styled-components';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles'; 
 import axios from 'axios';
+
 import {
   ThemeProvider,
   createMuiTheme,
@@ -19,7 +24,29 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit / 2,
+    top: theme.spacing.unit / 2,
+    color: theme.palette.grey[900],
+  },
+}));
+
 export default function DialogeSignUp(props) {
+
+  const classes = useStyles();
 
   const [form, setForm] = useState({
     email: props.email,
@@ -263,9 +290,15 @@ export default function DialogeSignUp(props) {
 
   }
 
+
+  const Div = styled.div`
+  text-align: center;
+  color: red;
+  `;
+
   function ResponseBackend() {
     if (form.response) {
-      return <h1> This e-mail is already used </h1>
+      return <h3> This e-mail is already used </h3>
     } else {
       return null
     }
@@ -279,6 +312,9 @@ export default function DialogeSignUp(props) {
         aria-labelledby="form-dialog-title"
       > 
         <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={props.handleClose}>
+          <CloseIcon />
+        </IconButton>
         <DialogContent>
           <DialogContentText>
             Sign up and start sharing.
@@ -406,7 +442,11 @@ export default function DialogeSignUp(props) {
           />
         </ThemeProvider>
         </DialogContent>
-        <ResponseBackend form={form} />
+
+        <Div>
+        <ResponseBackend />
+        </ Div>
+        
         <DialogActions>
         <ThemeProvider theme={theme}>
           <Button onClick={handlePostData} color="primary">
