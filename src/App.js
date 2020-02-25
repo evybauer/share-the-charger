@@ -9,6 +9,10 @@ import DialogeLogin from "./components/DialogeLogin";
 import DialogeSignUp from "./components/DialogeSignUp";
 
 export default function App() {
+  
+  const [userState, setUserState] = React.useState({
+    isAuthenticated: false
+  });
 
   const [open, setOpen] = React.useState(false);
 
@@ -36,6 +40,10 @@ export default function App() {
     setOpenMyAccount(!openMyAccount);
   };
 
+  const toggleLogout = () => {
+    setUserState({});
+  };
+  
   const [openLogin, setOpenLogin] = React.useState(false);
   const toggleLogin = () => {
     setOpenLogin(!openLogin);
@@ -58,20 +66,23 @@ export default function App() {
   return (
   <div>
     <Navbar 
+      userState={userState}
+      setUserState={setUserState}
       open={open} 
       myBookingsClick={toggleDialoge} 
       addChargerClick={toggleAddCharger} 
       myChargersClick={toggleMyChargers} 
       myAccountClick={toggleMyAccount}
+      logoutClick={toggleLogout}
       loginClick={toggleLogin}
       signUpClick={toggleSignUp}
     />
-    <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} />
-    <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} />
-    <DialogeTableChargers open={openMyChargers} handleClickOpen={handleClickOpen} handleClose={handleClose} />
-    <DialogeMyAccount open={openMyAccount} handleClickOpen={handleClickOpen} handleClose={handleClose} />
-    <DialogeLogin open={openLogin} handleClickOpen={handleClickOpen} handleClose={handleClose} />
-    <DialogeSignUp open={openSignUp} handleClickOpen={handleClickOpen} handleClose={handleClose} />
+    <DialogeTableBookings open={openDialoge} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <AddChargerDialog open={openAddCharger} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <DialogeTableChargers open={openMyChargers} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <DialogeMyAccount open={openMyAccount} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <DialogeLogin open={openLogin} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
+    <DialogeSignUp open={openSignUp} handleClickOpen={handleClickOpen} handleClose={handleClose} userState={userState} setUserState={setUserState}/>
     <Map />
   </div>
   )
