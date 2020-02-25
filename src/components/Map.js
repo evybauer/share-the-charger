@@ -1,15 +1,19 @@
 import React, { useState, useEffect, setError } from "react";
 import ReactMapGL, { GeolocateControl, Marker, Popup, NavigationControl, FullscreenControl, ScaleControl } from "react-map-gl";
+import FormDialog from "./FormDialog";
+import EvStationIcon from '@material-ui/icons/EvStation';
+import HouseIcon from '@material-ui/icons/House';
+import styled from 'styled-components';
+import { red, grey } from '@material-ui/core/colors';
+import { makeStyles } from '@material-ui/core/styles';
+import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Button from '@material-ui/core/Button';
 // import Geocoder from 'react-mapbox-gl-geocoder'
 // import * as parkData from "../data/skateboard-parks.json";
 // import RoomIcon from '@material-ui/icons/Room';
 // import Button from "@material-ui/core/Button";
-import FormDialog from "./FormDialog";
 // import Success from "./Success";
 // import PinDropIcon from '@material-ui/icons/PinDrop';
-import EvStationIcon from '@material-ui/icons/EvStation';
-import HouseIcon from '@material-ui/icons/House';
-import styled from 'styled-components';
 
 
 var geo = require('mapbox-geocoding');
@@ -48,6 +52,13 @@ const scaleControlStyle = {
   margin: 10
 };
 
+const useStyles = makeStyles(theme => ({
+  Popup: {
+    width: '300px',
+    height: '100%',
+  },
+}));
+
 export default function Map(props) {
 
   const [viewport, setViewport] = useState({
@@ -57,6 +68,8 @@ export default function Map(props) {
     height: "96.35vh",
     zoom: 13
   });
+
+  const classes = useStyles();
 
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [points, setPoints] = useState([]);
@@ -142,7 +155,8 @@ export default function Map(props) {
 
   function PinIconType(props) {
     if (props.point.typeOfCharger === 'Domestic') {
-      return <HouseIcon
+      return <HouseIcon 
+        style={{ color: red[600] }}
         onClick={e => {
           e.preventDefault();
           setSelectedPoint(props.point);
@@ -150,6 +164,7 @@ export default function Map(props) {
       ></HouseIcon>
     } else {
       return <EvStationIcon
+        style={{ color: grey[800] }}
         onClick={e => {
           e.preventDefault();
           setSelectedPoint(props.point);
@@ -212,14 +227,37 @@ export default function Map(props) {
           >
             <Div>
               <h2>{selectedPoint.title}</h2>
+            </Div>
               <p>
+                <b>Address:</b> {" "}{" "}
                 {selectedPoint.street}
                 {" | "}
                 {selectedPoint.city}
               </p>
-              <GoogleDirections selectedPoint={selectedPoint} />
-              <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState} />
-            </Div>
+              <p> 
+                {selectedPoint.postalCode}
+              </p>
+              <p>
+                <b>Connection type:</b>
+                {" "}
+                {selectedPoint.connectionTypeId}
+              </p>
+              <p>
+                <b>Cost Per KWh:</b>
+                {selectedPoint.costPerKWh}
+              </p>
+              <p>
+                <b>Additional information:</b> {" "}
+                {selectedPoint.generalComments}
+              </p>
+
+              <Div>
+              <Button variant="outlined" color="primary" startIcon={<LocationOnIcon style={{ color: red[600] }}/>}>
+              <GoogleDirections selectedPoint={selectedPoint} /> 
+              </Button>
+               {"       "}
+              <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState}/>
+              </Div>
           </Popup>
         ) : null}
 
