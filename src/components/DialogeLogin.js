@@ -8,11 +8,23 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
 
+import {
+  ThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles';
+import { amber } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: amber,
+  },
+});
+
 export default function DialogeLogin(props) {
 
   const [form, setForm] = useState({
-    email: props.email,
-    password: props.password
+    email: '',
+    password: '',
   });
 
   const handleInputChange = e => {
@@ -36,9 +48,22 @@ export default function DialogeLogin(props) {
       .then(res => {
         console.log(res);
         console.log(res.data);
+        const formCopy = {...form}
+        formCopy.isAuthenticated = true
+        formCopy.id = res.data._id
+        formCopy.firstName = res.data.firstName
+        formCopy.lastName = res.data.lastName
+        formCopy.dateOfBirth = res.data.dateOfBirth
+        formCopy.phoneNumber = res.data.phoneNumber
+        formCopy.creditCardNumber = res.data.creditCardNumber
+        formCopy.creditCardExpirationDate = res.data.creditCardExpirationDate
+        formCopy.creditCardCvv = res.data.creditCardCvv
+        setForm({})
+        props.setUserState(formCopy)
         props.handleClose();
       })
       .catch(function (error) {
+        setForm({...form, ['response']: true})
         console.log(error);
       });
     };
@@ -80,7 +105,15 @@ export default function DialogeLogin(props) {
         setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
       }
     }
+    // let closeImg = {cursor:'pointer', float:'right', marginTop: '5px', width: '20px'};
 
+    function ResponseBackend() {
+      if (form.response) {
+        return <h1> Invalid email or password </h1>
+      } else {
+        return null
+      }
+    } 
 
   return (
     <div>
@@ -88,12 +121,13 @@ export default function DialogeLogin(props) {
         open={props.open} 
         onClose={props.handleClose} 
         aria-labelledby="form-dialog-title"
-      >
+     >
         <DialogTitle id="form-dialog-title">Login</DialogTitle>
         <DialogContent>
           <DialogContentText >
             Welcome back! <br/> Please, login first to start sharing and charging. 
             </DialogContentText>
+            <ThemeProvider theme={theme}>
           <TextField
             autoFocus
             margin="dense"
@@ -120,14 +154,18 @@ export default function DialogeLogin(props) {
             onBlur={handleExitPassword}
 
           />
+          </ThemeProvider>
         </DialogContent>
+        <ResponseBackend />
         <DialogActions>
+        <ThemeProvider theme={theme}>
           <Button onClick={handlePostData} color="primary">
             Login
           </Button>
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </div>

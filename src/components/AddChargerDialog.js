@@ -8,7 +8,20 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
 
+import {
+  ThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles';
+import { amber } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: amber,
+  },
+});
+
 export default function AddChargerDialog(props) {
+
   const [form, setForm] = useState({
     title: props.title,
     costPerKWh: props.costPerKWh,
@@ -317,6 +330,7 @@ export default function AddChargerDialog(props) {
             <DialogContentText>
               Please, provide your information to add and share your domestic electric vehicle charger.
           </DialogContentText>
+          <ThemeProvider theme={theme}>
             <TextField
               autoFocus
               margin="dense"
@@ -433,6 +447,7 @@ export default function AddChargerDialog(props) {
               id="dateAvailableStart"
               label="Date Available Start"
               type="date"
+              InputLabelProps={{ shrink: true }}
               fullWidth
               // error={form.errorDateAvailableStart}
               // helperText={form.helperTextDateAvailableStart}
@@ -446,6 +461,7 @@ export default function AddChargerDialog(props) {
               id="dateAvailableEnd"
               label="Date Available End"
               type="date"
+              InputLabelProps={{ shrink: true }}
               fullWidth
               // error={form.errorDateAvailableEnd}
               // helperText={form.helperTextDateAvailableEnd}
@@ -489,14 +505,17 @@ export default function AddChargerDialog(props) {
               onChange={handleInputChange}
               // onBlur={handleExitDateAvailableEnd}
             />
+            </ThemeProvider>
           </DialogContent>
           <DialogActions>
+          <ThemeProvider theme={theme}>
             <Button type="submit" color="primary">
               Add
           </Button>
             <Button onClick={props.handleClose} color="primary">
               Cancel
           </Button>
+          </ThemeProvider>
           </DialogActions>
         </form>
       </Dialog>
