@@ -2,11 +2,11 @@ import React, { useState, useEffect, setError } from "react";
 import ReactMapGL, { GeolocateControl, Marker, Popup, NavigationControl, FullscreenControl, ScaleControl } from "react-map-gl";
 // import Geocoder from 'react-mapbox-gl-geocoder'
 // import * as parkData from "../data/skateboard-parks.json";
-import RoomIcon from '@material-ui/icons/Room';
+// import RoomIcon from '@material-ui/icons/Room';
 // import Button from "@material-ui/core/Button";
 import FormDialog from "./FormDialog";
 // import Success from "./Success";
-import PinDropIcon from '@material-ui/icons/PinDrop';
+// import PinDropIcon from '@material-ui/icons/PinDrop';
 import EvStationIcon from '@material-ui/icons/EvStation';
 import HouseIcon from '@material-ui/icons/House';
 import styled from 'styled-components';
@@ -48,7 +48,7 @@ const scaleControlStyle = {
   margin: 10
 };
 
-export default function Map() {
+export default function Map(props) {
 
   const [viewport, setViewport] = useState({
     latitude: 49.282730,
@@ -58,29 +58,24 @@ export default function Map() {
     zoom: 13
   });
 
-  const [selectedPark, setSelectedPark] = useState(null);
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [points, setPoints] = useState([]);
   const reg = /^-?([1-8]?[1-9]|[1-9]0)\.{1}\d{1,6}/
 
-  // console.log('points:', points);
-
   const address = [];
 
   useEffect(() => {
-    const geo = navigator.geolocation;
-    if (!geo) {
-      setError('Geolocation is not supported');
-      return;
-    }
-    console.log(geo)
-
+    // const geo = navigator.geolocation;
+    // if (!geo) {
+    //   setError('Geolocation is not supported');
+    //   return;
+    // }
 
     fetch(`http://localhost:8080/chargers/byCity/Vancouver`)
       // We get the API response and receive data in JSON format...
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        // console.log(data);
         data.charger.map(d => {
           const p = {
             id: d._id,
@@ -106,12 +101,13 @@ export default function Map() {
             ownerId: d.ownerId._id,
             typeOfCharger: d.typeOfCharger
           };
-          console.log(p)
+          // console.log(p);
           if (reg.test(p.lat)) {
             address.push(p);
           }
         });
       });
+    props.setMasterPoint(address);
     setPoints(address);
 
     const listener = (e) => {
@@ -126,19 +122,23 @@ export default function Map() {
     }
   }, []);
 
-
-  useEffect(() => {
-    const listener = (e) => {
-      if (e.key === "Escape") {
-        setSelectedPark(null);
-      }
-    };
-    window.addEventListener("keydown", listener);
-
-    return () => {
-      window.removeEventListener("keydown", listener);
-    }
-  }, [])
+  function GoogleDirections(props) {
+    const add =
+      props.selectedPoint.street +
+      " " +
+      props.selectedPoint.city +
+      " " +
+      props.selectedPoint.stateOrProvince +
+      " " +
+      props.selectedPoint.postCode;
+    const googleDirectionUrl = "https://www.google.ca/maps/dir//" + add;
+    return (
+      <a href={googleDirectionUrl} target="_blank">
+        {" "}
+        Get Directions{" "}
+      </a>
+    );
+  }
 
   function PinIconType(props) {
     if (props.point.typeOfCharger === 'Domestic') {
@@ -157,8 +157,15 @@ export default function Map() {
       ></EvStationIcon>
     }
   }
-
-
+  
+  // Shows Book button on pop up or Not
+  function ButtomOrNot(props) {
+    if (props.selectedPoint.typeOfCharger === "Domestic" && props.userState.isAuthenticated) {
+      return <FormDialog userState={props.userState} pin={props.selectedPoint} />;
+    } else {
+      return null;
+    }
+  }
 
   return (
     <div>
@@ -187,11 +194,13 @@ export default function Map() {
         />
 
         {/* MAPBOX PINS BELOW */}
-        {points.map(point => (
-          <Marker key={point.id} latitude={point.lat} longitude={point.long}>
-            <PinIconType point={point} />
-          </Marker>
-        ))}
+        {props.masterPoint.map(point => {
+          return (
+            <Marker key={point.id} latitude={point.lat} longitude={point.long}>
+              <PinIconType point={point} />
+            </Marker>
+          );
+        })}
 
         {selectedPoint ? (
           <Popup
@@ -203,11 +212,18 @@ export default function Map() {
           >
             <Div>
               <h2>{selectedPoint.title}</h2>
-              <p>{selectedPoint.street}{" | "}{selectedPoint.city}</p>
-              <FormDialog pin={selectedPoint} />
+              <p>
+                {selectedPoint.street}
+                {" | "}
+                {selectedPoint.city}
+              </p>
+              <GoogleDirections selectedPoint={selectedPoint} />
+              <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState} />
             </Div>
           </Popup>
         ) : null}
+
+
 
       </ReactMapGL>
     </div>
