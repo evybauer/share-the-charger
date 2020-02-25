@@ -69,7 +69,7 @@ export default function MaterialTableDemo(props) {
   );
 
   useEffect(() => {
-    const url = `http://localhost:8080/user/${props.user}`; //pass user --- remove hardcoded user
+    const url = "http://localhost:8080/user/" + props.userState.id; //pass user --- remove hardcoded user
 
     axios
       .get(url, {
