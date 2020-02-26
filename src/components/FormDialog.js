@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
+// import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
 import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,6 +18,12 @@ import {
   ThemeProvider,
   createMuiTheme,
 } from '@material-ui/core/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: amber,
+  },
+});
 
 
 // import Dropdown from './Dropdown';
@@ -48,11 +54,6 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.grey[900],
   },
 }));
-const theme = createMuiTheme({
-  palette: {
-    primary: amber,
-  },
-});
 
 export default function FormDialog(props) {
 
@@ -199,7 +200,7 @@ export default function FormDialog(props) {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen} size="large" startIcon={<BatteryCharging20Icon style={{ color: amber[600] }}/>}>
+      <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
         Book
       </Button>
       <Dialog
