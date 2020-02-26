@@ -42,9 +42,9 @@ export default function MaterialTableDemo(props) {
 
   const columns = [
     { title: 'Title', field: 'title' },
-    { title: 'Cost per KWh', field: 'costPerKWh' },
+    { title: 'Cost per KWh', field: 'costPerChargePriceCurrency' },
     { title: 'Number of Chargers', field: 'numberOfChargers' },
-    { title: 'Connection Type ID', field: 'connectionTypeId' },
+    { title: 'Connection Type ID', field: 'connectionTypeName' },
     { title: 'Street', field: 'street' },
     { title: 'City', field: 'city' },
     { title: 'Province or State', field: 'stateOrProvince' },
@@ -89,16 +89,25 @@ export default function MaterialTableDemo(props) {
     const url = "http://localhost:8080/chargers/byOwner/" + props.userState.id;
 
     axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json"
-        }
+    .get(url, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => {
+      let getCharger = res.data.charger
+      console.log(getCharger) //array of dictionaries
+
+      const ma = getCharger.map(({ _id, ownerId, __v, ...title }) => {
+        const connectionTypeName = title.connectionTypeId.title
+        title.connectionTypeName = connectionTypeName
+        const costPerChargePrice = title.costPerKWh
+        const costPerChargePriceCurrency = "$" + costPerChargePrice
+        title.costPerChargePriceCurrency = costPerChargePriceCurrency
+        delete title.connectionTypeId
+        return title
       })
-      .then(res => {
-        let getCharger = res.data.charger
-        console.log(getCharger) //array of dictionaries
-        const ma = getCharger.map(({ _id, ownerId, connectionTypeId, __v, ...title }) => title)
-        console.log(ma)
+      console.log(ma)
 
         setState(ma)
       })
