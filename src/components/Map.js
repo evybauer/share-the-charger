@@ -15,14 +15,18 @@ import Button from '@material-ui/core/Button';
 // import Success from "./Success";
 // import PinDropIcon from '@material-ui/icons/PinDrop';
 
+// ---- GEOCODE information ---- //
 
 var geo = require('mapbox-geocoding');
 geo.setAccessToken(process.env.REACT_APP_MAPBOX_TOKEN);
 
+// ---- STYLING w/ styled-components ---- //
 
 const Div = styled.div`
   text-align: center;
 `;
+
+// ---- Custom styling ---- //
 
 const geolocateStyle = {
   position: 'fixed',
@@ -68,8 +72,6 @@ export default function Map(props) {
     height: "96.35vh",
     zoom: 13
   });
-
-  const classes = useStyles();
 
   const [selectedPoint, setSelectedPoint] = useState(null);
   const [points, setPoints] = useState([]);
@@ -231,7 +233,7 @@ export default function Map(props) {
               <p>
                 <b>Address:</b> {" "}{" "}
                 {selectedPoint.street}
-                {" | "}
+                {", "}
                 {selectedPoint.city}
               </p>
               <p> 
@@ -244,25 +246,27 @@ export default function Map(props) {
               </p>
               <p>
                 <b>Cost Per KWh:</b>
+                {" "}
                 {selectedPoint.costPerKWh}
               </p>
               <p>
-                <b>Additional information:</b> {" "}
+                <b>Additional information:</b> 
+                {" "}
                 {selectedPoint.generalComments}
               </p>
 
               <Div>
-              <Button variant="outlined" color="primary" startIcon={<LocationOnIcon style={{ color: red[600] }}/>}>
-              <GoogleDirections selectedPoint={selectedPoint} /> 
+              <Button variant="outlined" color="primary" startIcon={<LocationOnIcon style={{ color: red[600] }} />}>
+                <GoogleDirections selectedPoint={selectedPoint} />
               </Button>
-               {"       "}
-              <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState}/>
-              </Div>
-          </Popup>
+            </Div>
+            <br />
+            <Div>
+              <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState} />
+            </Div>
+               </Popup>
         ) : null}
-
-
-
+        
       </ReactMapGL>
     </div>
   )
