@@ -46,11 +46,11 @@ export default function MaterialTableDemo(props) {
       { title: 'Last Name', field: 'lastName' },
       { title: 'Date of Birth', field: 'dateOfBirth', type: 'date', align: 'right' },
       { title: 'Email', field: 'email', type: 'email', align: 'right' },
-      // { title: 'Password', field: 'password', type: 'password' },
       { title: 'Phone Number', field: 'phoneNumber', type: 'numeric', align: 'right' },
-      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric', align: 'right' }, 
       { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'date', align: 'left'},
-      { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric', align: 'left' },
+      // { title: 'Credit Card Number', field: 'creditCardNumber', type: 'hidden', align: 'right' }, 
+      // { title: 'Password', field: 'password', type: 'password' },
+      // { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric', align: 'left' },
     ]
 
     const [state, setState] = React.useState([
