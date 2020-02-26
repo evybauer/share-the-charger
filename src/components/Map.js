@@ -5,15 +5,30 @@ import EvStationIcon from '@material-ui/icons/EvStation';
 import HouseIcon from '@material-ui/icons/House';
 import styled from 'styled-components';
 import { red, grey } from '@material-ui/core/colors';
-import { makeStyles } from '@material-ui/core/styles';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
+// import { makeStyles } from '@material-ui/core/styles';
+// import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 // import Geocoder from 'react-mapbox-gl-geocoder'
 // import * as parkData from "../data/skateboard-parks.json";
 // import RoomIcon from '@material-ui/icons/Room';
 // import Button from "@material-ui/core/Button";
 // import Success from "./Success";
 // import PinDropIcon from '@material-ui/icons/PinDrop';
+
+const useStyles = makeStyles(theme => ({
+  link: {
+    textDecoration: 'none',
+    color: '#e63f67',
+  },
+  title: {
+    textAlign: 'center',
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+  },
+}));
 
 // ---- GEOCODE information ---- //
 
@@ -22,9 +37,9 @@ geo.setAccessToken(process.env.REACT_APP_MAPBOX_TOKEN);
 
 // ---- STYLING w/ styled-components ---- //
 
-const Div = styled.div`
-  text-align: center;
-`;
+// const Div = styled.div`
+//   text-align: center;
+// `;
 
 // ---- Custom styling ---- //
 
@@ -56,14 +71,11 @@ const scaleControlStyle = {
   margin: 10
 };
 
-const useStyles = makeStyles(theme => ({
-  Popup: {
-    width: '300px',
-    height: '100%',
-  },
-}));
+
 
 export default function Map(props) {
+
+  const classes = useStyles();
 
   const [viewport, setViewport] = useState({
     latitude: 49.282730,
@@ -148,7 +160,7 @@ export default function Map(props) {
       props.selectedPoint.postCode;
     const googleDirectionUrl = "https://www.google.ca/maps/dir//" + add;
     return (
-      <a href={googleDirectionUrl} target="_blank">
+      <a href={googleDirectionUrl} target="_blank" className={classes.link}>
         {" "}
         Get Directions{" "}
       </a>
@@ -157,7 +169,7 @@ export default function Map(props) {
 
   function PinIconType(props) {
     if (props.point.typeOfCharger === 'Domestic') {
-      return <HouseIcon 
+      return <HouseIcon
         style={{ color: red[600] }}
         onClick={e => {
           e.preventDefault();
@@ -174,7 +186,7 @@ export default function Map(props) {
       ></EvStationIcon>
     }
   }
-  
+
   // Shows Book button on pop up or Not
   function ButtomOrNot(props) {
     if (props.selectedPoint.typeOfCharger === "Domestic" && props.userState.isAuthenticated) {
@@ -227,46 +239,40 @@ export default function Map(props) {
               setSelectedPoint(null);
             }}
           >
-            <Div>
-              <h2>{selectedPoint.title}</h2>
-            </Div>
-              <p>
-                <b>Address:</b> {" "}{" "}
-                {selectedPoint.street}
-                {", "}
-                {selectedPoint.city}
-              </p>
-              <p> 
-                {selectedPoint.postalCode}
-              </p>
-              <p>
-                <b>Connection type:</b>
-                {" "}
-                {selectedPoint.connectionTypeId}
-              </p>
-              <p>
-                <b>Cost Per KWh:</b>
-                {" "}
-                {selectedPoint.costPerKWh}
-              </p>
-              <p>
-                <b>Additional information:</b> 
-                {" "}
-                {selectedPoint.generalComments}
-              </p>
-
-              <Div>
-              <Button variant="outlined" color="primary" startIcon={<LocationOnIcon style={{ color: red[600] }} />}>
+            <h2 className={classes.title}>{selectedPoint.title}</h2>
+            <p>
+              <b>Address:</b> {" "}{" "}
+              {selectedPoint.street}
+              {", "}
+              {selectedPoint.city}
+            </p>
+            <p>
+              {selectedPoint.postalCode}
+            </p>
+            <p>
+              <b>Connection type:</b>
+              {" "}
+              {selectedPoint.connectionTypeId}
+            </p>
+            <p>
+              <b>Cost Per KWh:</b>
+              {" "}
+              {selectedPoint.costPerKWh}
+            </p>
+            <p>
+              <b>Additional information:</b>
+              {" "}
+              {selectedPoint.generalComments}
+            </p>
+            <div className={classes.container}>
+              <Button variant="outlined" color="secondary">
                 <GoogleDirections selectedPoint={selectedPoint} />
               </Button>
-            </Div>
-            <br />
-            <Div>
               <ButtomOrNot selectedPoint={selectedPoint} userState={props.userState} />
-            </Div>
-               </Popup>
+            </div>
+          </Popup>
         ) : null}
-        
+
       </ReactMapGL>
     </div>
   )
