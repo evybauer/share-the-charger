@@ -7,7 +7,17 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import BatteryCharging20Icon from '@material-ui/icons/BatteryCharging20';
+import styled from 'styled-components';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles'; 
 import { amber } from '@material-ui/core/colors';
+import axios from 'axios';
+
+import {
+  ThemeProvider,
+  createMuiTheme,
+} from '@material-ui/core/styles';
 
 
 // import Dropdown from './Dropdown';
@@ -18,15 +28,39 @@ import { amber } from '@material-ui/core/colors';
 // import FormControl from '@material-ui/core/FormControl';
 // import Select from '@material-ui/core/Select';
 // import { Alert, AlertTitle } from '@material-ui/lab';
-import axios from 'axios';
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3),
+  },
+  closeButton: {
+    position: 'absolute',
+    right: theme.spacing.unit / 2,
+    top: theme.spacing.unit / 2,
+    color: theme.palette.grey[900],
+  },
+}));
+const theme = createMuiTheme({
+  palette: {
+    primary: amber,
+  },
+});
 
 export default function FormDialog(props) {
+
+  const classes = useStyles();
 
   console.log('BELOW IS THE PROPS:')
   console.log(props.pin.title);
   // DIALOG
-
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -44,7 +78,6 @@ export default function FormDialog(props) {
     date: props.date,
     hours: props.hours,
     totalPrice: "",
-
 
     long: props.pin.longitude,
     lat: props.pin.latitude,
@@ -117,39 +150,38 @@ export default function FormDialog(props) {
 
   // INPUT VALIDATION
 
-  // const handleExitDate = e => {
-  //   const { id, value } = e.target;
-  //   const vDate = validateDate(value);
+  const handleExitDate = e => {
+  const { value } = e.target;
 
-  // function validateDate(date) {
-  //   var vDate = /^((0[1-9])|(1[0-2]))\/((2009)|(20[1-2][0-9]))$/;
-  //   return vDate.test(String(date));
-  // }
+  let date = new Date(value);
+  console.log(date);
+  if (value !== "" && date < new Date()) {
+    setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Invalid date" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Date is empty" })
+    } else {
+      setForm({ ...form, ["errorDate"]: false, ["helperTextDate"]: "" })
+    }
+  }
 
-  //   if (id === 'date' && !vDate) {
-  //     console.log('Date is here')
-  //     setForm({ ...form, ["errorDate"]: true, ["helperTextDate"]: "Invalid date" })
-  //   } else {
-  //     setForm({ ...form, ["errorDate"]: false, ["helperTextDate"]: "" })
-  //   }
-  // }
+  const handleExitHours = e => {
+    const { value } = e.target;
+    const vHours = validateHours(value);
 
-  // const handleExitHours = e => {
-  //   const { id, value } = e.target;
-  //   const vHours = validateHours(value);
+  function validateHours(hours) {
+    var vHours = /^(?:(?:2[0-3]|1\d|[1-9])(?:\.\d+)?|24(?:\.0+)?)$/;
+    return vHours.test(String(hours));
+  }
 
-  // function validateHours(hours) {
-  //   var vHours = /([1-9]|1[0-9]|2[0-4])/;
-  //   return vHours.test(String(hours));
-  // }
-
-  //   if (id === 'hours' && !vHours) {
-  //     console.log('Hours is here')
-  //     setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "You can book chargers only within 24 hours" })
-  //   } else {
-  //     setForm({ ...form, ["errorHours"]: false, ["helperTextHours"]: "" })
-  //   }
-  // }
+    if (!vHours && value !== "") {
+      console.log('Hours is here')
+      setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "You can book chargers only within 24 hours" })
+    } else if (value === "") {
+      setForm({ ...form, ["errorHours"]: true, ["helperTextHours"]: "Hours is empty" })
+    } else {
+      setForm({ ...form, ["errorHours"]: false, ["helperTextHours"]: "" })
+    }
+  }
 
   const totalPriceMessage = () => {
     console.log(typeof props.pin.costPerKWh)
@@ -159,6 +191,11 @@ export default function FormDialog(props) {
     setForm({ ...form, ['totalPrice']: cost })
   }
 
+  const Div = styled.div`
+  color: red;
+  background-color: #F7F8F9;
+  height: 30px
+  `;
 
   return (
     <div>
@@ -171,10 +208,14 @@ export default function FormDialog(props) {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Book</DialogTitle>
+        <IconButton aria-label="Close" className={classes.closeButton} onClick={handleClose}>
+          <CloseIcon />
+        </IconButton>        
         <DialogContent>
           <DialogContentText>
             Select the date and amount of hours you wish to book.
           </DialogContentText>
+          <ThemeProvider theme={theme}>
           <TextField
             margin="dense"
             id="date"
@@ -182,11 +223,12 @@ export default function FormDialog(props) {
             type="date"
             InputLabelProps={{ shrink: true }}
             fullWidth
-            // error={form.errorDate}
-            // helperText={form.helperTextDate}
+            focused={true}
+            error={form.errorDate}
+            helperText={form.helperTextDate}
             value={form.date}
             onChange={handleInputChange}
-          // onBlur={handleExitDate}
+            onBlur={handleExitDate}
           />
           <TextField
             margin="dense"
@@ -194,27 +236,29 @@ export default function FormDialog(props) {
             label="Hours"
             type="hours"
             fullWidth
-            // error={form.errorHours}
-            // helperText={form.helperTextHours}
+            error={form.errorHours}
+            helperText={form.helperTextHours}
             value={form.hours}
             onChange={handleInputChange}
-            // onBlur={handleExitHours}
-            onBlur={totalPriceMessage}
+            onBlur={handleExitHours && totalPriceMessage}
           />
           <div>
             <h4>This is the total price of your charge:</h4>
-            {form.totalPrice}
           </div>
-
-
+          <Div> 
+           <h3>${form.totalPrice.toLocaleString('en-CA')}</h3>
+          </Div>
+          </ThemeProvider>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handlePostData} color="primary">
-            Book
-          </Button>
+        <ThemeProvider theme={theme}>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
+          <Button onClick={handlePostData} color="primary">
+            Book
+          </Button>
+          </ThemeProvider>
         </DialogActions>
       </Dialog>
     </div>

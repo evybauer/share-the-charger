@@ -42,7 +42,7 @@ export default function MaterialTableDemo(props) {
 
   const columns = [
       // { title: 'Charger Address', field: 'street' },
-      { title: 'Date', field: 'date' },
+      { title: 'Date', field: 'date', type: 'date' },
       { title: 'Hours', field: 'hours' },
       { title: 'Total Price', field: 'totalPrice'},
     ]

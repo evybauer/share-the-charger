@@ -44,12 +44,12 @@ export default function MaterialTableDemo(props) {
   const columns = [
       { title: 'First Name', field: 'firstName' },
       { title: 'Last Name', field: 'lastName' },
-      { title: 'Date of Birth', field: 'dateOfBirth', type: 'numeric' },
+      { title: 'Date of Birth', field: 'dateOfBirth', type: 'date' },
       { title: 'Email', field: 'email', type: 'email' },
       // { title: 'Password', field: 'password', type: 'password' },
       { title: 'Phone Number', field: 'phoneNumber', type: 'numeric' },
       { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' }, 
-      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate'},
+      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'date'},
       { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
     ]
 
