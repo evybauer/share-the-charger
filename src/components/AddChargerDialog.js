@@ -63,8 +63,8 @@ export default function AddChargerDialog(props) {
     active: undefined,
     dateAvailableStart: props.dateAvailableStart,
     dateAvailableEnd: props.dateAvailableEnd,
-    hourStart: props.hourStart,
-    hourEnd: props.hourEnd,
+    // hourStart: props.hourStart,
+    // hourEnd: props.hourEnd,
     connectionTypeId: props.connectionTypeId,
     ownerId: props.userState.id
   });
@@ -283,12 +283,12 @@ export default function AddChargerDialog(props) {
     const pc = validatePostalCode(value);
 
     function validatePostalCode(postalCode) {
-      var characteres = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+      var characteres = /^[a-zA-Z0-9 ]*$/;
       return characteres.test(String(postalCode));
     }
 
     if (!pc && value !== "") {
-      setForm({ ...form, ["errorPostalCode"]: true, ["helperTextPostalCode"]: "Postal code cannot contain special characteres (-,@#!$%ˆ&*) or blank spaces" })
+      setForm({ ...form, ["errorPostalCode"]: true, ["helperTextPostalCode"]: "Postal code cannot contain special characteres (-,@#!$%ˆ&*)" })
     } else if (value === "") {
       setForm({ ...form, ["errorPostalCode"]: true, ["helperTextPostalCode"]: "Postal code is empty" })
     } else {
@@ -359,43 +359,6 @@ export default function AddChargerDialog(props) {
   //       setForm({ ...form, ["errorDateAvailableEnd"]: false, ["helperTextDateAvailableEnd"]: "" })
   //     }
   //   } 
-
-  // const handleExitHourStart = e => {
-  //   // const { value } = e.target;
-
-  //   // let dateAvStart = new Date(value);
-
-  //   // console.log((dateAvStart));
-  //   // console.log(new Date(value))
-    
-  //   // if (value !== "" && dateAvStart < new Date()) {
-  //   //   setForm({ ...form, ["errorDateAvailableStart"]: true, ["helperTextDateAvailableStart"]: "Date available start is invalid" })
-  //   //   } else if (dateAvStart === "") {
-  //   //     setForm({ ...form, ["errorDateAvailableStart"]: true, ["helperTextDateAvailableStart"]: "Date available start is empty" })
-  //   //   } else {
-  //   //     setForm({ ...form, ["errorDateAvailableStart"]: false, ["helperTextDateAvailableStart"]: "" })
-  //   //   }
-  //   }
-
-  // const handleExitHourEnd = e => {
-  //   // const { value } = e.target;
-
-  //   // let dateAvEnd = new Date(value);
-  //   // let dateAvStart = new Date(form.dateAvailableStart)
-
-  //   // console.log((dateAvEnd));
-    
-    
-    
-  //   // if (value !== "" && dateAvEnd < dateAvStart) {
-  //   //   setForm({ ...form, ["errorDateAvailableEnd"]: true, ["helperTextDateAvailableEnd"]: "Date available end must be after start date" })
-  //   //   } else if (dateAvEnd === "") {
-  //   //     setForm({ ...form, ["errorDateAvailableEnd"]: true, ["helperTextDateAvailableEnd"]: "Date available end is empty" })
-  //   //   } else {
-  //   //     setForm({ ...form, ["errorDateAvailableEnd"]: false, ["helperTextDateAvailableEnd"]: "" })
-  //   //   }
-  //   } 
-
 
   return (
     <div>
@@ -552,7 +515,7 @@ export default function AddChargerDialog(props) {
               onChange={handleInputChange}
               // onBlur={handleExitDateAvailableEnd}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               id="hourStart"
               label="HourStart"
@@ -575,7 +538,7 @@ export default function AddChargerDialog(props) {
               value={form.hourEnd}
               onChange={handleInputChange}
               // onBlur={handleExitDateAvailableEnd}
-            />
+            /> */}
             <TextField
               id="connectionTypeId"
               select

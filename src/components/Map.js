@@ -1,20 +1,12 @@
-import React, { useState, useEffect, setError } from "react";
+import React, { useState, useEffect, PureComponent } from "react";
 import ReactMapGL, { GeolocateControl, Marker, Popup, NavigationControl, FullscreenControl, ScaleControl } from "react-map-gl";
 import FormDialog from "./FormDialog";
 import EvStationIcon from '@material-ui/icons/EvStation';
 import HouseIcon from '@material-ui/icons/House';
 import styled from 'styled-components';
 import { red, grey } from '@material-ui/core/colors';
-// import { makeStyles } from '@material-ui/core/styles';
-// import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
-// import Geocoder from 'react-mapbox-gl-geocoder'
-// import * as parkData from "../data/skateboard-parks.json";
-// import RoomIcon from '@material-ui/icons/Room';
-// import Button from "@material-ui/core/Button";
-// import Success from "./Success";
-// import PinDropIcon from '@material-ui/icons/PinDrop';
 
 const useStyles = makeStyles(theme => ({
   link: {
@@ -122,8 +114,8 @@ export default function Map(props) {
             active: d.active,
             dateAvailableStart: d.dateAvailableStart,
             dateAvailableEnd: d.dateAvailableEnd,
-            hourStart: d.hourStart,
-            hourEnd: d.hourEnd,
+            // hourStart: d.hourStart,
+            // hourEnd: d.hourEnd,
             connectionTypeId: d.connectionTypeId._id,
             ownerId: d.ownerId._id,
             typeOfCharger: d.typeOfCharger
@@ -196,6 +188,16 @@ export default function Map(props) {
     }
   }
 
+  //Improve Map performance -- Do no re-render map in every interaction
+  class MarkersPoint extends PureComponent {
+    render() {
+      return this.props.masterPoint.map(
+        point => <Marker key={point.id} latitude={point.lat} longitude={point.long}> <PinIconType point={point} /></Marker>
+      )
+    }
+  }
+
+
   return (
     <div>
       <ReactMapGL
@@ -223,13 +225,7 @@ export default function Map(props) {
         />
 
         {/* MAPBOX PINS BELOW */}
-        {props.masterPoint.map(point => {
-          return (
-            <Marker key={point.id} latitude={point.lat} longitude={point.long}>
-              <PinIconType point={point} />
-            </Marker>
-          );
-        })}
+        <MarkersPoint masterPoint={props.masterPoint} />
 
         {selectedPoint ? (
           <Popup
@@ -257,7 +253,7 @@ export default function Map(props) {
             <p>
               <b>Cost Per KWh:</b>
               {" "}
-              {selectedPoint.costPerKWh}
+              ${selectedPoint.costPerKWh}
             </p>
             <p>
               <b>Additional information:</b>

@@ -41,12 +41,17 @@ const tableIcons = {
 export default function MaterialTableDemo(props) {
 
   const columns = [
-      // { title: 'Charger Address', field: 'street' },
-      { title: 'Date', field: 'date', type: 'date' },
-      { title: 'Hours', field: 'hours', type: 'time' },
-      { title: 'Total Price', field: 'totalPrice', align: 'right',
-      format: value => value.toLocaleString()},
-    ]
+    // { title: 'Charger Address', field: 'street' },
+    { title: 'Date', field: 'date', type: 'date' },
+    { title: 'Charger Name', field: 'chargerTitle' },
+    { title: 'Address', field: 'chargerStreet' },
+    { title: 'City', field: 'chargerCity' },
+    { title: 'Province', field: 'chargerStateOrProvince' },
+    { title: 'Postal Code', field: 'chargerPostCode' },
+    { title: 'Country', field: 'chargerCountryID' },
+    { title: 'Hours Booked', field: 'hours' },
+    { title: 'Total Price', field: 'TotalPriceWithCurrency' },
+  ]
 
     const [state, setState] = React.useState([
       { 
@@ -67,16 +72,40 @@ export default function MaterialTableDemo(props) {
     const url = "http://localhost:8080/reservations/byGuest/" + props.userState.id;
 
     axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json"
-        }
+    .get(url, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(res => {
+      let getReservation = res.data.reservation
+      console.log(getReservation) //array of dictionaries
+      const ma = getReservation.map(({ _id, guestId, __v, ...date }) => {
+        const reservationTotalPrice = date.totalPrice
+        const TotalPriceWithCurrency = '$' + reservationTotalPrice
+        date.TotalPriceWithCurrency = TotalPriceWithCurrency
+
+        const chargerTitle = date.chargerId.title
+        date.chargerTitle = chargerTitle
+
+        const chargerStreet = date.chargerId.street
+        date.chargerStreet = chargerStreet
+
+        const chargerCity = date.chargerId.city
+        date.chargerCity = chargerCity
+
+        const chargerStateOrProvince = date.chargerId.stateOrProvince
+        date.chargerStateOrProvince = chargerStateOrProvince
+
+        const chargerPostCode = date.chargerId.postCode
+        date.chargerPostCode = chargerPostCode
+
+        const chargerCountryID = date.chargerId.countryId
+        date.chargerCountryID = chargerCountryID
+
+        delete date.chargerId
+        return date
       })
-      .then(res => {
-        let getReservation = res.data.reservation
-        console.log(getReservation) //array of dictionaries
-        const ma = getReservation.map(({ _id, chargerId, guestId, __v, ...date }) => date)
-        console.log(ma)
 
         setState(ma)
       })
