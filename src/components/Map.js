@@ -116,7 +116,7 @@ export default function Map(props) {
             dateAvailableEnd: d.dateAvailableEnd,
             // hourStart: d.hourStart,
             // hourEnd: d.hourEnd,
-            connectionTypeId: d.connectionTypeId._id,
+            connectionTypeId: d.connectionTypeId.title,
             ownerId: d.ownerId._id,
             typeOfCharger: d.typeOfCharger
           };
