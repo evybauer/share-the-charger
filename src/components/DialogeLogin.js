@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles'; 
+import styled from 'styled-components';
 import axios from 'axios';
 
 import {
@@ -134,11 +135,18 @@ export default function DialogeLogin(props) {
 
     function ResponseBackend() {
       if (form.response) {
-        return <h1> Invalid email or password </h1>
+        return <h3> Invalid email or password </h3>
       } else {
         return null
       }
     } 
+
+    const Div = styled.div`
+    text-align: center;
+    color: red;
+    font-family: Arial, Helvetica, sans-serif;
+    `;
+  
 
   return (
     <div>
@@ -183,14 +191,16 @@ export default function DialogeLogin(props) {
           />
           </ThemeProvider>
         </DialogContent>
+        <Div>
         <ResponseBackend />
+        </Div>
         <DialogActions>
         <ThemeProvider theme={theme}>
-          <Button onClick={handlePostData} color="primary">
-            Login
+        <Button onClick={props.handleClose} color="primary">
+              Cancel
           </Button>
-          <Button onClick={props.handleClose} color="primary">
-            Cancel
+            <Button onClick={handlePostData} color="primary">
+              Login
           </Button>
           </ThemeProvider>
         </DialogActions>
