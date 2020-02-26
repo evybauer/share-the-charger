@@ -43,8 +43,9 @@ export default function MaterialTableDemo(props) {
   const columns = [
       // { title: 'Charger Address', field: 'street' },
       { title: 'Date', field: 'date', type: 'date' },
-      { title: 'Hours', field: 'hours' },
-      { title: 'Total Price', field: 'totalPrice'},
+      { title: 'Hours', field: 'hours', type: 'time' },
+      { title: 'Total Price', field: 'totalPrice', align: 'right',
+      format: value => value.toLocaleString()},
     ]
 
     const [state, setState] = React.useState([
@@ -90,19 +91,28 @@ export default function MaterialTableDemo(props) {
       columns={columns}
       data={state}
       icons={tableIcons}
-      editable={{
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
+      options={{
+        headerStyle: {
+          color: '#000000',
+          fontSize: '14px',
+          textAlign: 'left',
+          fontWeight: '700',
+          backgroundColor: '#d8f7ec'
+        }
       }}
+      // editable={{
+      //   onRowDelete: oldData =>
+      //     new Promise(resolve => {
+      //       setTimeout(() => {
+      //         resolve();
+      //         setState(prevState => {
+      //           const data = [...prevState];
+      //           data.splice(data.indexOf(oldData), 1);
+      //           return { ...prevState, data };
+      //         });
+      //       }, 600);
+      //     }),
+      // }}
     />
   );
 }

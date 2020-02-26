@@ -293,7 +293,7 @@ export default function DialogeSignUp(props) {
 
   const Div = styled.div`
   text-align: center;
-  color: red;
+  color: #e53935;
   `;
 
   function ResponseBackend() {

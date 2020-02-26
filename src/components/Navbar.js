@@ -102,6 +102,7 @@ export default function PersistentDrawerLeft(props) {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+
   };
 
   const handleDrawerClose = () => {
@@ -129,7 +130,7 @@ export default function PersistentDrawerLeft(props) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: open && props.userState.isAuthenticated,
         })}
       >
         <Toolbar>
@@ -147,7 +148,7 @@ export default function PersistentDrawerLeft(props) {
           : '' }
           <img src={NavLogo} height="30px" alt="Logo" />
           <Typography variant="h6" noWrap className={classes.typography}>
-            Share the Charger{ props.userState.isAuthenticated ? `, ${props.userState.firstName}`  : "" }
+            Share the Charger{ props.userState.isAuthenticated ? `, ${props.userState.firstName}`  :  " " }
           </Typography>          
 
           <LoginButton  />
@@ -160,7 +161,7 @@ export default function PersistentDrawerLeft(props) {
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={open && props.userState.isAuthenticated}
         classes={{
           paper: classes.drawerPaper,
         }}

@@ -143,7 +143,7 @@ export default function DialogeLogin(props) {
 
     const Div = styled.div`
     text-align: center;
-    color: red;
+    color: #e53935;
     font-family: Arial, Helvetica, sans-serif;
     `;
   

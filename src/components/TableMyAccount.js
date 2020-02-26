@@ -44,13 +44,13 @@ export default function MaterialTableDemo(props) {
   const columns = [
       { title: 'First Name', field: 'firstName' },
       { title: 'Last Name', field: 'lastName' },
-      { title: 'Date of Birth', field: 'dateOfBirth', type: 'date' },
-      { title: 'Email', field: 'email', type: 'email' },
+      { title: 'Date of Birth', field: 'dateOfBirth', type: 'date', align: 'right' },
+      { title: 'Email', field: 'email', type: 'email', align: 'right' },
       // { title: 'Password', field: 'password', type: 'password' },
-      { title: 'Phone Number', field: 'phoneNumber', type: 'numeric' },
-      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric' }, 
-      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'date'},
-      { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric' },
+      { title: 'Phone Number', field: 'phoneNumber', type: 'numeric', align: 'right' },
+      { title: 'Credit Card Number', field: 'creditCardNumber', type: 'numeric', align: 'right' }, 
+      { title: 'Credit Card Expiration Date', field: 'creditCardExpirationDate', type: 'date', align: 'left'},
+      { title: 'Credit Card CVV', field: 'creditCardCvv', type: 'numeric', align: 'left' },
     ]
 
     const [state, setState] = React.useState([
@@ -99,11 +99,20 @@ export default function MaterialTableDemo(props) {
 
 
   return (
-    <MaterialTable
+    <MaterialTable 
       title="This is your account information"
       columns={columns}
       data={state}
       icons={tableIcons}
+      options={{
+        headerStyle: {
+          color: '#000000',
+          fontSize: '14px',
+          textAlign: 'left',
+          fontWeight: '700',
+          backgroundColor: '#d8f7ec'
+        }
+      }}
       // editable={{
       //   onRowUpdate: (newData, oldData) =>
       //     new Promise(resolve => {
