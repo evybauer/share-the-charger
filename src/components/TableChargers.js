@@ -115,19 +115,28 @@ export default function MaterialTableDemo(props) {
       columns={columns}
       data={state}
       icons={tableIcons}
-      editable={{
-        onRowDelete: oldData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              resolve();
-              setState(prevState => {
-                const data = [...prevState];
-                data.splice(data.indexOf(oldData), 1);
-                return { ...prevState, data };
-              });
-            }, 600);
-          }),
+      options={{
+        headerStyle: {
+          color: '#000000',
+          fontSize: '14px',
+          textAlign: 'left',
+          fontWeight: '700',
+          backgroundColor: '#d8f7ec'
+        }
       }}
+      // editable={{
+      //   onRowDelete: oldData =>
+      //     new Promise(resolve => {
+      //       setTimeout(() => {
+      //         resolve();
+      //         setState(prevState => {
+      //           const data = [...prevState];
+      //           data.splice(data.indexOf(oldData), 1);
+      //           return { ...prevState, data };
+      //         });
+      //       }, 600);
+      //     }),
+      // }}
     />
   );
 }
