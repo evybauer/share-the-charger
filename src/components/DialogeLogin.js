@@ -10,6 +10,15 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles'; 
 import styled from 'styled-components';
+
+import clsx from 'clsx';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import axios from 'axios';
 
 import {
@@ -26,15 +35,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
     display: 'flex',
-    flexWrap: 'wrap',
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  withoutLabel: {
-    marginTop: theme.spacing(3),
   },
   closeButton: {
     position: 'absolute',
@@ -131,7 +132,6 @@ export default function DialogeLogin(props) {
         setForm({ ...form, ["errorPassword"]: false, ["helperTextPassword"]: "" })
       }
     }
-    // let closeImg = {cursor:'pointer', float:'right', marginTop: '5px', width: '20px'};
 
     function ResponseBackend() {
       if (form.response) {
@@ -147,6 +147,18 @@ export default function DialogeLogin(props) {
     font-family: Arial, Helvetica, sans-serif;
     `;
   
+    const [values, setValues] = React.useState({
+      password: '',
+      showPassword: false,
+    });
+
+    const handleClickShowPassword = () => {
+      setValues({ ...values, showPassword: !values.showPassword });
+    };
+  
+    const handleMouseDownPassword = event => {
+      event.preventDefault();
+    };
 
   return (
     <div>
@@ -177,23 +189,43 @@ export default function DialogeLogin(props) {
             onChange={handleInputChange}
             onBlur={handleExitEmail}
           />
-          <TextField
+          </ThemeProvider>
+          <br />
+          <br />
+          <div className={classes.root}>
+        <FormControl fullWidth className={clsx(classes.margin, classes.textField)}>
+          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+          <Input
             margin="dense"
             id="password"
             label="Password"
-            type="password"
+            type={values.showPassword ? 'text' : 'password'}
             fullWidth
             error={form.errorPassword}
             helperText={form.helperTextPassword}
             value={form.password}
             onChange={handleInputChange}
             onBlur={handleExitPassword}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
           />
-          </ThemeProvider>
+        </FormControl>
+       </div>
         </DialogContent>
         <Div>
         <ResponseBackend />
         </Div>
+        <br />
+        <br />
         <DialogActions>
         <ThemeProvider theme={theme}>
         <Button onClick={props.handleClose} color="primary">
