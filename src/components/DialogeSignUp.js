@@ -10,6 +10,18 @@ import styled from 'styled-components';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles'; 
+import Divider from '@material-ui/core/Divider';
+import CreditCardIcon from '@material-ui/icons/CreditCard';
+import TodayIcon from '@material-ui/icons/Today';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 import axios from 'axios';
 
 import {
@@ -26,21 +38,24 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: `${theme.spacing.unit * 6}px ${theme.spacing.unit * 3}px 0`,
     display: 'flex',
     flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   margin: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1.5),
   },
   withoutLabel: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
   },
   closeButton: {
     position: 'absolute',
-    right: theme.spacing.unit / 2,
-    top: theme.spacing.unit / 2,
+    right: theme.spacing.unit / 1,
+    top: theme.spacing.unit / 1,
     color: theme.palette.grey[900],
+  },
+  textField: {
+    width: '255ch',
   },
 }));
 
@@ -304,12 +319,26 @@ export default function DialogeSignUp(props) {
     }
   } 
 
+  const [values, setValues] = React.useState({
+    password: '',
+    showPassword: false,
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault();
+  };
+
   return (
     <div>
       <Dialog
         open={props.open} 
         onClose={props.handleClose} 
         aria-labelledby="form-dialog-title"
+        maxWidth = {'sm'}
       > 
         <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
         <IconButton aria-label="Close" className={classes.closeButton} onClick={props.handleClose}>
@@ -319,15 +348,18 @@ export default function DialogeSignUp(props) {
           <DialogContentText>
             Sign up and start sharing.
           </DialogContentText>
+          <Divider />
+          <br />
           <ThemeProvider theme={theme}>
           <TextField
             autoFocus
+            variant="outlined"
             required
-            margin="dense"
+            style = {{width: 250}}
+            className={classes.margin}
             id="firstName"
             label="First Name"
             type="text"
-            fullWidth
             error={form.errorFirstName}
             helperText={form.helperTextFirstName}
             value={form.firstName}
@@ -335,12 +367,13 @@ export default function DialogeSignUp(props) {
             onBlur={handleExitFirstName}
           />
           <TextField
-            margin="dense"
+            variant="outlined"
             required
+            style = {{width: 250}}
+            className={classes.margin}
             id="lastName"
             label="Last Name"
             type="text"
-            fullWidth
             error={form.errorLastName}
             helperText={form.helperTextLastName}
             value={form.lastName}
@@ -348,13 +381,15 @@ export default function DialogeSignUp(props) {
             onBlur={handleExitLastName}
           />
           <TextField
-            margin="dense"
+            variant="outlined"
+            // margin="dense"
             required
+            style = {{width: 250}}
+            className={classes.margin}
             id="dateOfBirth"
             label="Date of Birth"
             type="date"
             InputLabelProps={{ shrink: true }}
-            fullWidth
             error={form.errorDateOfBirth}
             helperText={form.helperTextDateOfBirth}
             value={form.dateOfBirth}
@@ -362,83 +397,138 @@ export default function DialogeSignUp(props) {
             onBlur={handleExitDateOfBirth}
           />
           <TextField
-            margin="dense"
+            variant="outlined"
+            // margin="dense"
             required
+            style = {{width: 250}}
+            className={classes.margin}
             id="phoneNumber"
             label="Phone Number"
             type="number"
-            fullWidth
             error={form.errorPhoneNumber}
             helperText={form.helperTextPhoneNumber}
             value={form.phoneNumber}
             onChange={handleInputChange}
             onBlur={handleExitPhoneNumber}
           />
-          <TextField
-            margin="dense"
+          <TextField 
+            variant="outlined"
+            // margin="dense"
             required
+            style = {{width: 520}}
+            className={classes.margin}
             id="email"
             label="Email"
             type="email"
-            fullWidth
             error={form.errorEmail}
             helperText={form.helperTextEmail}
             value={form.email}
             onChange={handleInputChange}
             onBlur={handleExitEmail}
           />
+          <div >
+          <FormControl  style = {{width: 520}} className={classes.margin} variant="outlined">
+            <InputLabel>Password</InputLabel>
+            <OutlinedInput
+              // style = {{width: 500}}
+              // margin="dense"
+              required 
+              // fullWidth
+              // className={classes.margin}         
+              id="password"
+              // label="Password"
+              type={values.showPassword ? 'text' : 'password'}
+              error={form.errorPassword}
+              helperText={form.helperTextPassword}
+              value={form.password}
+              onChange={handleInputChange}
+              onBlur={handleExitPassword}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={100}
+            />
+
+              
+            </FormControl>
+          </div>
+          <br />
+          <InputLabel className={classes.margin}>Credit Card Information</InputLabel> 
           <TextField
-            margin="dense"
+            variant="outlined"
+            // margin="dense"
             required
-            id="password"
-            label="Password"
-            type="password"
-            fullWidth
-            error={form.errorPassword}
-            helperText={form.helperTextPassword}
-            value={form.password}
-            onChange={handleInputChange}
-            onBlur={handleExitPassword}
-          />
-          <TextField
-            margin="dense"
-            required
+            style = {{width: 520}}
+            className={classes.margin}
             id="creditCardNumber"
             label="Credit Card Number"
             type="number"
-            fullWidth
             error={form.errorCreditCardNumber}
             helperText={form.helperTextCreditCardNumber}
             value={form.creditCardNumber}
             onChange={handleInputChange}
             onBlur={handleExitCreditCardNumber}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CreditCardIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
-            margin="dense"
+            variant="outlined"
+            // margin="dense"
             required
+            style = {{width: 250}}
+            className={classes.margin}
             id="creditCardExpirationDate"
             label="Credit Card Expiration Date"
             type="month"
             InputLabelProps={{ shrink: true }}
-            fullWidth
             error={form.errorCreditCardExpirationDate}
             helperText={form.helperTextCreditCardExpirationDate}
             value={form.creditCardExpirationDate}
             onChange={handleInputChange}
             onBlur={handleExitCreditCardExpirationDate}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <TodayIcon />
+                </InputAdornment>
+              ),
+            }}
           />
           <TextField
-            margin="dense"
+            variant="outlined"
+            // margin="dense"
             required
+            style = {{width: 246}}
+            className={classes.margin}
             id="creditCardCvv"
             label="Credit Card CVV"
             type="number"
-            fullWidth
             error={form.errorCreditCardCvv}
             helperText={form.helperTextCreditCardCvv}
             value={form.creditCardCvv}
             onChange={handleInputChange}
             onBlur={handleExitCreditCardCvv}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockOutlinedIcon />
+                </InputAdornment>
+              ),
+            }}
           />
         </ThemeProvider>
         </DialogContent>
@@ -447,7 +537,7 @@ export default function DialogeSignUp(props) {
         <ResponseBackend />
         </ Div>
         
-        <DialogActions>
+        <DialogActions style={{ marginRight: 30 }}>
         <ThemeProvider theme={theme}>
           <Button onClick={handlePostData} color="primary">
             Sign Up
