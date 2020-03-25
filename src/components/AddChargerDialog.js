@@ -9,7 +9,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from "@material-ui/core/MenuItem";
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles'; 
+import { makeStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import axios from 'axios';
 
 import {
@@ -376,14 +377,18 @@ export default function AddChargerDialog(props) {
             <DialogContentText>
               Please, provide your information to add and share your domestic electric vehicle charger.
           </DialogContentText>
+          <Divider />
+          <br />
           <ThemeProvider theme={theme}>
             <TextField
               autoFocus
-              margin="dense"
+              // margin="dense"
+              variant="outlined"
               id="title"
               label="Title"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 525}}
               error={form.errorTitle}
               helperText={form.helperTextTitle}
               value={form.title}
@@ -391,11 +396,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitTitle}
             />
             <TextField
-              margin="dense"
+              // margin="dense"
+              variant="outlined"
               id="costPerKWh"
               label="Cost per KWh"
               type="number"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorCostPerKwh}
               helperText={form.helperTextCostPerKwh}
               value={form.costPerKWh}
@@ -403,11 +410,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitCostPerKwh}
             />
             <TextField
-              margin="dense"
+              // margin="dense"
+              variant="outlined"
               id="numberOfChargers"
               label="Number of chargers"
               type="number"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorNumberOfChargers}
               helperText={form.helperTextNumberOfChargers}
               value={form.numberOfChargers}
@@ -415,11 +424,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitNumberOfChargers}
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="street"
               label="Street"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 525}}
               error={form.errorStreet}
               helperText={form.helperTextStreet}
               value={form.street}
@@ -427,11 +438,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitStreet}
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="city"
               label="City"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorCity}
               helperText={form.helperTextCity}
               value={form.city}
@@ -439,11 +452,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitCity}
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="stateOrProvince"
               label="State Or Province"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorStateOrProvince}
               helperText={form.helperTextStateOrProvince}
               value={form.stateOrProvince}
@@ -451,11 +466,13 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitStateOrProvince}
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="postCode"
               label="Postal Code"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorPostalCode}
               helperText={form.helperTextPostalCode}
               value={form.postCode}
@@ -464,11 +481,13 @@ export default function AddChargerDialog(props) {
 
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="countryId"
               label="Country"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               error={form.errorCountry}
               helperText={form.helperTextCountry}
               value={form.countryId}
@@ -476,11 +495,15 @@ export default function AddChargerDialog(props) {
               onBlur={handleExitCountry}
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="generalComments"
               label="General Comments"
               type="text"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 525}}
+              multiline
+              rowsMax="15"
               // error={form.errorGeneralComments}
               // helperText={form.helperTextGeneralComments}
               value={form.generalComments}
@@ -489,12 +512,14 @@ export default function AddChargerDialog(props) {
 
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="dateAvailableStart"
               label="Date Available Start"
               type="date"
               InputLabelProps={{ shrink: true }}
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               // error={form.errorDateAvailableStart}
               // helperText={form.helperTextDateAvailableStart}
               value={form.dateAvailableStart}
@@ -503,12 +528,14 @@ export default function AddChargerDialog(props) {
 
             />
             <TextField
-              margin="dense"
+              //margin="dense"
+              variant="outlined"
               id="dateAvailableEnd"
               label="Date Available End"
               type="date"
               InputLabelProps={{ shrink: true }}
-              fullWidth
+              className={classes.margin}
+              style = {{width: 255}}
               // error={form.errorDateAvailableEnd}
               // helperText={form.helperTextDateAvailableEnd}
               value={form.dateAvailableEnd}
@@ -540,10 +567,12 @@ export default function AddChargerDialog(props) {
               // onBlur={handleExitDateAvailableEnd}
             /> */}
             <TextField
+              variant="outlined"
               id="connectionTypeId"
               select
               label="Select"
-              fullWidth
+              className={classes.margin}
+              style = {{width: 525}}
               value={cType}
               onChange={handleInputChangeConnectionType}
               helperText="Select your connection type"
@@ -556,7 +585,7 @@ export default function AddChargerDialog(props) {
             </TextField>
             </ThemeProvider>
           </DialogContent>
-          <DialogActions>
+          <DialogActions style={{ marginRight: 30 }}>
           <ThemeProvider theme={theme}>
             <Button type="submit" color="primary">
               Add
