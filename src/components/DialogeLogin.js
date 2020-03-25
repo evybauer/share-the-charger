@@ -10,9 +10,9 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles'; 
 import styled from 'styled-components';
+import Divider from '@material-ui/core/Divider';
 
-import clsx from 'clsx';
-import Input from '@material-ui/core/Input';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
@@ -36,6 +36,8 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   closeButton: {
     position: 'absolute',
@@ -175,10 +177,14 @@ export default function DialogeLogin(props) {
           <DialogContentText >
             Welcome back! <br/> Please, login first to start sharing and charging. 
             </DialogContentText>
+            <Divider />
+            <br />
             <ThemeProvider theme={theme}>
           <TextField
             autoFocus
-            margin="dense"
+            variant="outlined"
+            style = {{width: 350}}
+            // margin="dense"
             id="email"
             label="Email"
             type="text"
@@ -192,41 +198,44 @@ export default function DialogeLogin(props) {
           </ThemeProvider>
           <br />
           <br />
-          <div className={classes.root}>
-        <FormControl fullWidth className={clsx(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-          <Input
-            margin="dense"
-            id="password"
-            label="Password"
-            type={values.showPassword ? 'text' : 'password'}
-            fullWidth
-            error={form.errorPassword}
-            helperText={form.helperTextPassword}
-            value={form.password}
-            onChange={handleInputChange}
-            onBlur={handleExitPassword}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-       </div>
+          <div >
+          <FormControl  style = {{width: 350}} className={classes.margin} variant="outlined">
+            <InputLabel>Password</InputLabel>
+            <OutlinedInput
+              // style = {{width: 500}}
+              // margin="dense"
+              required 
+              // fullWidth
+              // className={classes.margin}         
+              id="password"
+              // label="Password"
+              type={values.showPassword ? 'text' : 'password'}
+              error={form.errorPassword}
+              helperText={form.helperTextPassword}
+              value={form.password}
+              onChange={handleInputChange}
+              onBlur={handleExitPassword}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              labelWidth={100}
+            />
+            </FormControl>
+          </div>
         </DialogContent>
         <Div>
         <ResponseBackend />
         </Div>
-        <br />
-        <br />
-        <DialogActions>
+        <DialogActions style={{ marginRight: 10 }}>
         <ThemeProvider theme={theme}>
         <Button onClick={props.handleClose} color="primary">
               Cancel

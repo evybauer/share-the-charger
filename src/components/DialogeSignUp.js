@@ -457,8 +457,6 @@ export default function DialogeSignUp(props) {
               }
               labelWidth={100}
             />
-
-              
             </FormControl>
           </div>
           <br />
