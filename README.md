@@ -43,8 +43,8 @@ BACK END: share-the-charger-rest-api (https://github.com/evybauer/share-the-char
 
 ## Final Product
 
-!["Screenshot of Login"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Main-page.png)
-!["Screenshot of Sign Up"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Main-page.png)
+!["Screenshot of Login"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Login.png%20.png)
+!["Screenshot of Sign Up"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Sign-Up.png%20.png)
 !["Screenshot of Main Page - logged out"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Main-page.png)
 !["Screenshot of Main Page - logged in"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Main_page_logged_in.png)
 !["Screenshot of Directions + Book Pop Up"](https://github.com/evybauer/share-the-charger/blob/master/docs/Screenshot_Main-page_Book.png)
