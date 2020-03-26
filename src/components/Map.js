@@ -6,6 +6,7 @@ import HouseIcon from '@material-ui/icons/House';
 import styled from 'styled-components';
 import { red, grey } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -236,6 +237,7 @@ export default function Map(props) {
             }}
           >
             <h2 className={classes.title}>{selectedPoint.title}</h2>
+            <Divider />
             <p>
               <b>Address:</b> {" "}{" "}
               {selectedPoint.street}
@@ -255,10 +257,12 @@ export default function Map(props) {
               {" "}
               ${selectedPoint.costPerKWh}
             </p>
-            <p>
+            <p> 
               <b>Additional information:</b>
               {" "}
+            <p style={{wordWrap: 'breakWord'}}>
               {selectedPoint.generalComments}
+            </p>
             </p>
             <div className={classes.container}>
               <Button variant="outlined" color="secondary">
